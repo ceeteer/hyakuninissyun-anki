@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>プライバシーポリシー - 百人一瞬暗記</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* モダンなフォント */
+                background: #e9eef2; /* 少し明るい背景色 */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                padding-top: 80px; /* ヘッダーの高さに合わせて調整 */
+                overflow-x: hidden; /* 水平方向のスクロールバーを非表示にする */
+            }
+
+                           .hero-left, .hero-right {
+    position: fixed; /* ヘッダーとフッターの間で固定 */
+    top: 77px; /* ヘッダーの高さに合わせる */
+    bottom: 0px; /* フッターの高さ（例：53px）に合わせて調整 */
+    width: 780px; /* ヒーロー画像の幅に合わせて調整 */
+    background-image: url('images/tatami.jpeg'); /* ← ここが正しい記述です */
+    background-repeat: repeat; /* 縦方向に繰り返す */
+    z-index: -1; /* コンテンツより背面に配置 */
+    pointer-events: none; /* クリックイベントなどを透過 */
+}
+
+.hero-left {
+left: 0;
+}
+
+.hero-right {
+right: 0;
+}
+
+        /* --- ヘッダーのスタイル --- */
+          header {
+            background: #90EE90;
+            color: white;
+            width: 100%;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            /* メニューボタンとタイトルを左右に配置するためのFlexbox設定 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-left: 1rem; /* メニューボタンのスペース */
+            padding-right: 1rem; /* バランスのための右側のスペース */
+        }
+
+        /* ヘッダーアイコンのスタイル */
+        .header-icon {
+            width: 40px; /* アイコンの幅 */
+            height: 40px; /* アイコンの高さ */
+            border-radius: 50%; /* 丸くする */
+            object-fit: cover; /* 画像がはみ出さないように */
+            margin-right: 0; /* タイトルとの間に少し余白 */
+            vertical-align: middle; /* タイトルと縦方向を揃える */
+        }
+
+          header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-family: 'Noto Serif JP', serif;
+            flex-grow: 1; /* タイトルが中央に寄るように調整 */
+            text-align: center;
+        }
+
+        /* ヘッダーの右側のダミーdiv（レイアウトバランス用） */
+        header .header-right-spacer {
+            width: 48px; /* メニューボタンとほぼ同じ幅に設定 */
+            height: 1px; /* ダミーなので最小限の高さ */
+        }
+
+        /* --- サイドバースタイルの追加 --- */
+        .sidebar {
+            height: 100%;
+            width: 0; /* 初期状態では幅をゼロにして非表示 */
+            position: fixed;
+            z-index: 1001; /* ヘッダーよりも手前に表示 */
+            top: 0;
+            left: 0; /* 左端に固定 */
+            background-color: #90EE90;
+            overflow-x: hidden; /* 横スクロールを禁止 */
+            transition: 0.5s; /* スライドアニメーション */
+            padding-top: 60px; /* ヘッダーの高さに合わせて調整 */
+            box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+        }
+
+        .sidebar.active {
+            width: 250px; /* 表示時にスライドしてくる幅 */
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            color: #f1f1f1;
+            background-color: #555;
+        }
+
+        /* --- サイドバー閉じるボタン（サイドバー内部）のスタイル --- */
+        .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: #818181;
+            text-decoration: none;
+            padding: 8px 0;
+        }
+
+        .closebtn:hover {
+            color: #f1f1f1;
+        }
+
+        /* --- ハンバーガーメニューボタンのスタイル --- */
+        .openbtn {
+            font-size: 30px;
+            cursor: pointer;
+            background-color: transparent;
+            color: white;
+            padding: 0;
+            border: none;
+            position: absolute; /* headerに対して絶対配置 */
+            left: 1rem; /* 左端から1remの距離 */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .openbtn:hover {
+            color: #f1f1f1;
+        }
+
+        /* --- メインコンテンツのカードスタイル（Aboutページの内容も含む） --- */
+        .content-card { /* 新しく定義したカードスタイル */
+            background: linear-gradient(145deg, #ffffff, #f0f0f0); /* グラデーション背景 */
+            padding: 2.5rem; /* パディングを増やす */
+            border-radius: 16px; /* 角を丸く */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* 強めの影 */
+            max-width: 800px; /* 幅を広げる */
+            width: 90%;
+            text-align: left; /* テキストを左寄せに */
+            margin-top: 120px; /* ヘッダーの高さと余白を考慮 */
+            margin-bottom: 2rem;
+            line-height: 1.8; /* 行間を広げる */
+            color: #333; /* テキスト色 */
+            border: 1px solid #ddd; /* 控えめなボーダー */
+        }
+
+        .content-card h2 {
+            color: #2c3e50; /* ヘッダーと同じ色 */
+            font-size: 2.2rem; /* 見出しを大きく */
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #3498db; /* アクセントカラーの太い下線 */
+            padding-bottom: 0.8rem;
+            text-align: center; /* タイトルを中央寄せ */
+        }
+
+        .content-card h3 {
+            color: #34495e; /* 少し明るいダークグレー */
+            font-size: 1.6rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            position: relative; /* 下線のために */
+            padding-left: 15px; /* アイコンや装飾のスペース */
+        }
+
+        .content-card h3::before { /* 見出しの装飾 */
+            content: '•';
+            color: #3498db;
+            font-size: 2rem;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .content-card p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-card ul {
+            list-style: none; /* デフォルトのリストスタイルをなくす */
+            padding-left: 0;
+            margin-bottom: 1rem;
+        }
+
+        .content-card ul li {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 25px; /* カスタム箇条書きアイコンのスペース */
+        }
+
+        .content-card ul li::before { /* カスタム箇条書きアイコン */
+            content: '✓'; /* チェックマーク */
+            color: #27ae60; /* 緑色 */
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .content-card ul ul { /* ネストされたリストのスタイル */
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 0.5rem;
+        }
+
+        .content-card ul ul li::before {
+            content: '-'; /* ハイフン */
+            color: #7f8c8d; /* グレー */
+        }
+
+        /* --- フッターのスタイル --- */
+        footer {
+            margin-top: auto;
+            width: 100%;
+            text-align: center;
+            padding: 1.2rem 0; /* パディングを増やす */
+            background: #90EE90;
+            color: #e9eef2; /* 明るい色 */
+            font-size: 0.95rem;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* 上向きの影 */
+        }
+        </style>
+    </head>
+    <body>
+         <div class="hero-left"></div>
+    <div class="hero-right"></div>
+        <header>
+            <button class="openbtn" onclick="openNav()">&#9776;</button>
+            <h1>
+                <img src="images/karuta.png" alt="" class="header-icon">
+                百人一瞬暗記
+            </h1>
+            <div class="header-right-spacer"></div>
+        </header>
+
+        <div id="mySidebar" class="sidebar">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <ul>
+                <li><a href="start.html" onclick="closeNav()">ホーム</a></li>
+                <li><a href="list.html" onclick="closeNav()">句一覧</a></li>
+                <li><a href="weak-poems.html" onclick="closeNav()">苦手句リスト</a></li>
+                <li><a href="about.html" onclick="closeNav()">このアプリについて</a></li>
+                <li><a href="privacy.html" onclick="closeNav()">プライバシーポリシー</a></li>
+            </ul>
+        </div>
+
+        <div id="privacyContent" class="content-card">
+            <h2>プライバシーポリシー</h2>
+            <p>「百人一瞬暗記」アプリ（以下、「本アプリ」といいます）は、ユーザーの皆様のプライバシーを尊重し、個人情報の保護に最大限の注意を払っています。本プライバシーポリシーは、本アプリにおける個人情報の取り扱いについて説明するものです。</p>
+
+            <h3>1. 取得する情報および取得方法</h3>
+            <ul>
+                <li><strong>個人を特定する情報の収集について</strong>:
+                    <ul>
+                        <li>本アプリは、ユーザーから氏名、メールアドレス、電話番号などの個人を特定できる情報を直接収集することはありません。</li>
+                    </ul>
+                </li>
+                <li><strong>アクセス情報の収集について</strong>:
+                    <ul>
+                        <li>本アプリは、アプリの利用状況を把握するため、匿名のアクセス情報を収集する場合があります。これには、アプリの起動回数、特定の機能の利用頻度などが含まれますが、これらは個人を特定できる情報とは紐付けられません。</li>
+                        <li>これらの情報は、アプリの改善、新機能の開発、およびサービス品質向上のために利用されます。</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>2. 情報の利用目的</h3>
+            <p>本アプリで収集する情報は、以下の目的のために利用されます。</p>
+            <ul>
+                <li>アプリの機能改善および新機能の開発。</li>
+                <li>ユーザーエクスペリエンスの向上。</li>
+                <li>アプリの利用状況の統計分析。</li>
+            </ul>
+
+            <h3>3. 情報の第三者提供について</h3>
+            <p>本アプリは、法令で認められる場合を除き、ユーザーの同意なく個人情報を第三者に提供することはありません。</p>
+
+            <h3>4. 広告配信について</h3>
+            <p>本アプリには、現在広告配信機能はありません。将来的に広告を導入する場合は、本プライバシーポリシーを改定し、事前に告知いたします。</p>
+
+            <h3>5. 免責事項</h3>
+            <p>本アプリの利用によって生じた、いかなる損害に対しても、開発者は一切の責任を負いません。</p>
+
+            <h3>6. プライバシーポリシーの変更</h3>
+            <p>本プライバシーポリシーの内容は、必要に応じて変更されることがあります。変更があった場合は、本アプリ内または関連ウェブサイトで告知いたします。変更後のプライバシーポリシーは、本アプリへの掲載時または別途定める時点から効力を生じるものとします。</p>
+
+            <h3>7. お問い合わせ</h3>
+            <p>本プライバシーポリシーに関するご質問やお問い合わせは、以下のメールアドレスまでご連絡ください。</p>
+            <p>メールアドレス: [あなたの連絡先メールアドレス]</p>
+
+            <p>最終更新日: 2025年7月20日</p>
+        </div>
+        
+        <script>
+            // サイドバーを開く関数
+            function openNav() {
+                document.getElementById("mySidebar").style.width = "280px"; /* 少し幅を広げる */
+            }
+
+            // サイドバーを閉じる関数
+            function closeNav() {
+                document.getElementById("mySidebar").style.width = "0";
+            }
+
+            // 現在の年を取得して表示するJavaScript
+            document.getElementById("currentYear").textContent = new Date().getFullYear();
+        </script>
+        
+        <footer>
+            &copy; <span id="currentYear"></span> hyakuninnissyunanki
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>百人一瞬暗記 - 句一覧</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            padding-top: 80px; /* ヘッダーの高さに合わせて調整されます（JSで動的に計算） */
+            overflow-x: hidden; /* サイドバーが開いたときに横スクロールバーが表示されるのを防ぐ */
+        }
+
+        .hero-left, .hero-right {
+    position: fixed; /* ヘッダーとフッターの間で固定 */
+    top: 77px; /* ヘッダーの高さに合わせる */
+    bottom: 0px; /* フッターの高さ（例：53px）に合わせて調整 */
+    width: 780px; /* ヒーロー画像の幅に合わせて調整 */
+    background-image: url('images/tatami.jpeg'); /* ← ここが正しい記述です */
+    background-repeat: repeat; /* 縦方向に繰り返す */
+    z-index: -1; /* コンテンツより背面に配置 */
+    pointer-events: none; /* クリックイベントなどを透過 */
+}
+
+.hero-left {
+left: 0;
+}
+
+.hero-right {
+right: 0;
+}
+
+        /* --- ヘッダーのスタイル --- */
+        header {
+            background: #90EE90;
+            color: white;
+            width: 100%;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            /* メニューボタンとタイトルを左右に配置するためのFlexbox設定 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-left: 1rem; /* メニューボタンのスペース */
+            padding-right: 1rem; /* バランスのための右側のスペース */
+        }
+        /* ↓ここから変更↓ */
+        .header-icon {
+            width: 40px; /* アイコンの幅 */
+            height: 40px; /* アイコンの高さ */
+            border-radius: 50%; /* 丸くする */
+            object-fit: cover; /* 画像がはみ出さないように */
+            margin-right: 10px; /* タイトルとの間に少し余白 */
+            vertical-align: middle; /* タイトルと縦方向を揃える */
+            /* positionとleftは削除 */
+        }
+        /* ↑ここまで変更↑ */
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-family: 'Noto Serif JP', serif;
+            flex-grow: 1; /* タイトルが中央に寄るように調整 */
+            text-align: center;
+            display: flex; /* h1内でアイコンとテキストを横並びにするため追加 */
+            align-items: center; /* 垂直方向中央揃え */
+            justify-content: center; /* 水平方向中央揃え */
+        }
+
+        /* ヘッダーの右側のダミーdiv（レイアウトバランス用） */
+        header .header-right-spacer {
+            width: 48px; /* メニューボタンとほぼ同じ幅に設定 */
+            height: 1px; /* ダミーなので最小限の高さ */
+        }
+
+        .karuta-link-box {
+            position: fixed; /* ヘッダーのすぐ下に固定配置 */
+            top: 80px; /* ヘッダーの高さに合わせて調整 (bodyのpadding-topと同じ値) */
+            right: 0px; /* 右端からの距離 */
+            background-color: #4CAF50; /* 少し濃いめの緑色 */
+            color: white;
+            padding: 8px 15px; /* 上下、左右のパディング */
+            border-radius: 5px; /* 角を丸くする */
+            text-decoration: none; /* 下線なし */
+            font-size: 0.9em; /* フォントサイズ */
+            white-space: nowrap; /* テキストが折り返さないように */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 影 */
+            z-index: 998; /* ヘッダー (1000) やサイドバー (1001) より下、通常のコンテンツより上 */
+            display: flex; /* テキストを中央寄せ */
+            align-items: center; /* 垂直方向中央寄せ */
+            justify-content: center; /* 水平方向中央寄せ */
+            min-width: 200px; /* 最小幅を設定して細長く見せる */
+            height: 40px; /* 高さを設定 */
+        }
+
+        .karuta-link-box:hover {
+            background-color: #45a049; /* ホバー時の色 */
+        }
+
+
+        /* --- サイドバースタイルの追加 --- */
+        .sidebar {
+            height: 100%;
+            width: 0; /* 初期状態では幅をゼロにして非表示 */
+            position: fixed;
+            z-index: 1001; /* ヘッダーよりも手前に表示 */
+            top: 0;
+            left: 0; /* 左端に固定 */
+            background-color: #90EE90;
+            overflow-x: hidden; /* 横スクロールを禁止 */
+            transition: 0.5s; /* スライドアニメーション */
+            padding-top: 60px; /* ヘッダーの高さに合わせて調整 */
+            box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+        }
+
+        .sidebar.active {
+            width: 250px; /* 表示時にスライドしてくる幅 */
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            color: #f1f1f1;
+            background-color: #555;
+        }
+
+        /* --- サイドバー閉じるボタン（サイドバー内部）のスタイル --- */
+        .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: #818181;
+            text-decoration: none;
+            padding: 8px 0;
+        }
+
+        .closebtn:hover {
+            color: #f1f1f1;
+        }
+
+
+        /* --- メニューボタン（ヘッダー内）のスタイル --- */
+        /* ↓ここから変更↓ */
+        .openbtn { /* .open-sidebar-btn から .openbtn に変更 */
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0 10px;
+            z-index: 1002; /* サイドバーより手前に表示 */
+            /* 必要に応じて位置調整（Flexbox内で自動的に配置されるはず） */
+        }
+
+        .openbtn:hover { /* こちらも合わせて変更 */
+            color: #f1f1f1;
+        }
+        /* ↑ここまで変更↑ */
+
+
+        /* --- オーバーレイのスタイル --- */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5); /* 半透明の黒い背景 */
+            z-index: 999; /* サイドバーのすぐ下に配置 */
+            display: none; /* 初期状態では非表示 */
+        }
+
+        .overlay.active {
+            display: block; /* JavaScriptでこのクラスが追加されると表示 */
+        }
+
+
+        /* --- 句一覧ページのスタイル --- */
+        .poem-list-container {
+            margin-top: 1rem;
+            max-width: 650px;
+            width: 90%;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        .poem-list-container h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .poem-item {
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
+        }
+        .poem-item:last-child {
+            border-bottom: none;
+        }
+        .poem-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .poem-reading {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 0.5rem;
+            white-space: pre-wrap; /* 改行を保持 */
+        }
+        /* 読み上げボタンのスタイル */
+        .read-aloud-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+            display: block; /* ボタンを独自の行に表示 */
+        }
+        .read-aloud-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- フッターのスタイル --- */
+        footer {
+            margin-top: auto;
+            width: 100%;
+            text-align: center;
+            padding: 1rem 0;
+            background: #90EE90;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        /* --- ページ上部へ戻るボタンのスタイル --- */
+        #scrollToTopBtn {
+            display: none; /* 初期状態では非表示 */
+            position: fixed; /* 画面に固定 */
+            bottom: 20px; /* 下からの距離 */
+            right: 20px; /* 右からの距離 */
+            z-index: 99; /* 他の要素より手前に表示 */
+            border: none; /* 枠線なし */
+            outline: none; /* フォーカス時のアウトラインなし */
+            background-color: #555; /* 背景色 */
+            color: white; /* 文字色 */
+            cursor: pointer; /* カーソルをポインターに */
+            padding: 15px; /* 内側の余白 */
+            border-radius: 50%; /* 丸い形 */
+            font-size: 18px; /* 文字サイズ */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 影 */
+            transition: background-color 0.3s ease; /* ホバー時のトランジション */
+        }
+
+        #scrollToTopBtn:hover {
+            background-color: #777; /* ホバー時の背景色 */
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-left"></div>
+    <div class="hero-right"></div>
+    <header>
+        <button class="openbtn" onclick="openNav()">&#9776;</button>
+        <h1>
+            <img src="images/karuta.png" alt="カルタのアイコン" class="header-icon"> 百人一瞬暗記
+        </h1>
+        <div class="header-right-spacer"></div>
+         <a href="https://www.karuta.or.jp/
+" class="karuta-link-box">競技かるたへ興味のある方はこちらから</a>
+    </header>
+
+
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <ul>
+            <li><a href="start.html" onclick="closeNav()">ホーム</a></li>
+            <li><a href="list.html" onclick="closeNav()">句一覧</a></li>
+            <li><a href="weak-poems.html" onclick="closeNav()">苦手句リスト</a></li>
+            <li><a href="about.html" onclick="closeNav()">このアプリについて</a></li>
+            <li><a href="privacy.html" onclick="closeNav()">プライバシーポリシー</a></li>
+        </ul>
+    </div>
+
+    <div id="sidebarOverlay" class="overlay" onclick="closeNav()"></div>
+
+    <div class="poem-list-container">
+        <h2>百人一首 句一覧</h2>
+        <div id="poemList">
+        </div>
+    </div>
+
+    <button id="scrollToTopBtn">↑</button>
+
+    <footer>
+        &copy; <span id="currentYear"></span> hyakuninnissyunanki
+    </footer>
+<script>
+   const poems = [
+        { question: "秋の田のかりほの庵の苫をあらみ", answer: "わが衣手は露にぬれつつ\n[読み]あきのたのかりほのいほのとまをあらみ　わがころもてはつゆにぬれつつ\n[歌人]天智天皇", youtubeUrl: "https://youtu.be/CmSzyBS49JQ?si=Ubb1W41nnV3EsyFUこれ" }, // 例として追加済みのyoutubeUrl
+        { question: "春過ぎて夏来にけらし白妙の", answer: "衣干すてふ天の香具山\n[読み]はるすぎてなつきにけらししろたえの　ころもほすてふあまのかぐやま\n[歌人]持統天皇", youtubeUrl: "https://youtu.be/q-74lm5EH7E?si=WZCleY6yIIQAJTZ2" }, // 例: 2句目にも追加
+        { question: "あしびきの山鳥の尾のしだり尾の", answer: "ながながし夜をひとりかも寝む\n[読み]あしびきのやまどりのをのしだりおの　ながながしよをひとりかもねむ\n[歌人]柿本人麻呂",youtubeUrl:"https://youtu.be/EEpC6MA9FU0?si=RLLq-HoNAUBK82uH" }, 
+        { question: "田子の浦にうち出でて見れば白妙の", answer: "富士の高嶺に雪は降りつつ\n[読み]たごのうらにうちいでてみればしろたえの　ふじのたかねにゆきはふりつつ\n[歌人]山辺赤人" ,youtubeUrl:"https://youtu.be/yUvoLQTRNLk?si=zGKxK8IK_H9VZav5"},
+        { question: "奥山に紅葉踏み分け鳴く鹿の", answer: "声聞く時ぞ秋は悲しき\n[読み]おくやまにもみじふみわけなくしかの　こえきくときぞあきはかなしき\n[歌人]猿丸大夫" ,youtubeUrl:"https://youtu.be/ld_g5TLwllM?si=Zvqn2ll5cbnv_zse"},
+        { question: "かささぎの渡せる橋に置く霜の", answer: "白きを見れば夜ぞ更けにける\n[読み]かささぎのわたせるはしにおくしもの　しろきをみればよぞふけにける\n[歌人]中納言家持" ,youtubeUrl:"https://youtu.be/Bt0_ZSuMfro?si=qSaBf6XWbWXmjqWT"},
+        { question: "天の原ふりさけ見れば春日なる", answer: "三笠の山に出でし月かも\n[読み]あまのはらふりさけみればかすがなる　みかさのやまにいでしつきかも\n[歌人]安倍仲麻呂",youtubeUrl:"https://youtu.be/1S7NacIHqjU?si=nIbvx8k5UIsQOAXf" },
+        { question: "わが庵は都のたつみしかぞ住む", answer: "世をうぢ山と人はいふなり\n[読み]わがいおはみやこのたつみしかぞすむ　よをうじやまとひとはいうなり\n[歌人]喜撰法師",youtubeUrl:"https://youtu.be/oeaP5pMNMa0?si=D5_WZ1mZXdtUyl_0" },
+        { question: "花の色は移りにけりないたづらに", answer: "わが身世にふるながめせし間には\n[読み]はなのいろはうつりにけりないたづらに　わがみよにふるながめせしまに\n[歌人]小野小町" ,youtubeUrl:"https://youtu.be/teiJ2pacPHU?si=Oa_9wn61ltZybAp9"},
+        { question: "これやこの行くも帰るも別れては", answer: "知るも知らぬもあふ坂の関\n[読み]これやこのゆくもかえるもわかれては　しるもしらぬもあふさかのせき\n[歌人]蝉丸",youtubeUrl:"https://youtu.be/y8nZhNi-Gic?si=fRPLoiIxFsbrT02c" },
+        { question: "わたの原八十島かけて漕ぎ出でぬと", answer: "人には告げよあまのつり舟\n[読み]わたのはらやそしまかけてこぎいでぬと　ひとにはつげよあまのつりぶね\n[歌人]参議篁",youtubeUrl:"https://youtu.be/5YMU9qWhL60?si=O3oVJeh0wYN8ul6g" },
+        { question: "天つ風雲の通ひ路吹きとぢよ", answer: "乙女の姿しばしとどめむ\n[読み]あまつかぜくものかよいじふきとじよ　おとめのすがたしばしとどめむ\n[歌人]僧正遍昭" ,youtubeUrl:"https://youtu.be/PRiGUrQ4aYM?si=UGRzr9jXNIM8Lg-N"},
+        { question: "筑波嶺の峰より落つるみなの川", answer: "恋ぞ積もりて淵となりぬる\n[読み]つくばねのみねよりおつるみなのがわ　こいぞつもりてふちとなりぬる\n[歌人]陽成院" ,youtubeUrl:"https://youtu.be/aRpNf3QrbHk?si=PziJyR1HFl_NYy_n"},
+        { question: "陸奥のしのぶもぢずりたれゆゑに", "answer": "乱れそめにしわれならなくに\n[読み]みちのくのしのぶもじずりたれゆえに　みだれそめにしわれならなくに\n[歌人]河原左大臣",youtubeUrl:"https://youtu.be/AnoqM3_tUJs?si=Huzwj6Q6lGE8Tm0x" },
+        { question: "君がため春の野に出でて若菜摘む", answer: "わが衣手に雪は降りつつ\n[読み]きみがためはるののにいでてわかなつむ　わがころもでにゆきはふりつつ\n[歌人]光孝天皇" ,youtubeUrl:"https://youtu.be/RYnzpzcGRf8?si=QDKkIeeBGjE1MaVx"},
+        { question: "立ち別れいなばの山の峰に生ふる", answer: "まつとし聞かば今帰り来む\n[読み]たちわかれいにばのやまのみねにおうる　まつとしきかばいまかえりこむ\n[歌人]中納言行平",youtubeUrl:"https://youtu.be/yAEBqUCOY6s?si=2mmR_bt5hvOLTENW" },
+        { question: "ちはやぶる神代も聞かず竜田川", answer: "からくれなゐに水くくるとは\n[読み]ちはやぶるかみよもきかずたつたがわ　からくれないにみずくくるとは\n[歌人]在原業平朝臣" ,youtubeUrl:"https://youtu.be/gksTcrFATQc?si=EmDq3o2wS5Ls9Hug"},
+        { question: "住の江の岸に寄る波よるさへや", answer: "夢の通ひ路人目よくらむ\n[読み]すみのえのきしによるなみよるさえや　ゆめのかよいじひとめよくらむ\n[歌人]藤原敏行朝臣",youtubeUrl:"https://youtu.be/tLgLo0u3v58?si=pLCuAPQTgAUy8PCN" },
+        { question: "難波潟短き蘆のふしの間も", answer: "逢はでこの世を過ぐしてよとや\n[読み]なにわがたみじかきあしのふしのまも　あわでこのよをすぐしてよとや\n[歌人]伊勢" ,youtubeUrl:"https://youtu.be/AlSSCeI_D6g?si=fSjTJ04Z23NVEW63"},
+        { question: "わびぬれば今はたおなじ難波なる", answer: "みをつくしても逢はむとぞ思ふ\n[読み]わびぬればいまはたおなじなにわなる　みをつくしてもあわんとぞおもう\n[歌人]元良親王" ,youtubeUrl:"https://youtu.be/8u_wUaHfkv8?si=W1Lwkor8OGEVw_T8"},
+        { question: "今来むといひしばかりに長月の", answer: "有明の月を待ち出でつるかな\n[読み]いまこむといひしばかりにながつきの　ありあけのつきをまちいでつるかな\n[歌人]素性法師" },
+        { question: "吹くからに秋の草木のしをるれば", answer: "むべ山風をあらしといふらむ\n[読み]ふくからにあきのくさきのしおるれば　むべやまかぜをあらしというらん\n[歌人]文屋康秀" },
+        { question: "月見ればちぢにものこそ悲しけれ", answer: "わが身ひとつの秋にはあらねど\n[読み]つきみればちぢにものこそかなしけれ　わがみひとつのあきにはあらねど\n[歌人]大江千里" },
+        { question: "このたびは幣も取りあへず手向山", answer: "紅葉の錦神のまにまに\n[読み]このたびはぬさもとりあえずたむけやま　もみじのにしきかみのみまにまに\n[歌人]菅家" },
+        { question: "名にし負はば逢坂山のさねかづら", answer: "人に知られで来るよしもがな\n[読み]なにしおわばおうさかやまのさねかずら　ひとにしられでくるよしもがな\n[歌人]三条右大臣" },
+        { question: "小倉山峰の紅葉葉心あらば", answer: "いまひとたびのみゆき待たなむ\n[読み]おぐらやまみねのもみじばこころあらば　いまひとたびのみゆきまたなん\n[歌人]貞信公" },
+        { question: "みかの原わきて流るるいづみ川", answer: "いつ見きとてか恋しかるらむ\n[読み]みかのはらわきてながるるいずみがわ　いつみきとてかこいしかるらむ\n[歌人]中納言兼輔" },
+        { question: "山里は冬ぞ寂しさまさりける", answer: "人目も草もかれぬと思へば\n[読み]やまざとはふゆぞさびしさまさりける　ひとめもくさもかれぬとおもえば\n[歌人]源宗于朝臣" },
+        { question: "心あてに折らばや折らむ初霜の", answer: "置きまどはせる白菊の花\n[読み]こころあてにおらばやおらん　はつしもの　おきまどはせるしらぎくのはな\n[歌人]凡河内躬恒" },
+        { question: "有明のつれなく見えし別れより", answer: "暁ばかり憂きものはなし\n[読み]ありあけのつれなくみえしわかれより　あかつきばかりうきものはなし\n[歌人]壬生忠岑" },
+        { question: "朝ぼらけ有明の月と見るまでに", answer: "吉野の里に降れる白雪\n[読み]あさぼらけありあけのつきとみるまでに　よしののさとにふれるしらゆき\n[歌人]坂上是則" },
+        { question: "山川に風のかけたるしがらみは", answer: "流れもあへぬ紅葉なりけり\n[読み]やまがわにかぜのかけたるしがらみは　ながれもあえぬもみじなりけり\n[歌人]春道列樹" },
+        { question: "ひさかたの光のどけき春の日に", answer: "しづ心なく花の散るらむ\n[読み]ひさかたのひかりのどけきはるのひに　しづごころなくはなのちるらむ\n[歌人]紀友則" },
+        { question: "誰をかも知る人にせむ高砂の", answer: "松も昔の友ならなくに\n[読み]たれをかもしるひとにせんたかさごの　まつもむかしのともならなくに\n[歌人]藤原興風" },
+        { question: "人はいさ心も知らずふるさとは", answer: "花ぞ昔の香に匂ひける\n[読み]ひとはいさこころもしらずふるさとは　はなぞむかしのかににおひける\n[歌人]紀貫之" },
+        { question: "夏の夜はまだ宵ながら明けぬるを", answer: "雲のいづこに月宿るらむ\n[読み]なつのよはまだよいながらあけぬるを　くものいづこにつきやどるらむ\n[歌人]清原深養父" },
+        { question: "白露に風の吹きしく秋の野は", answer: "つらぬきとめぬ玉ぞ散りける\n[読み]しらつゆにかぜのふきしくあきののは　つらぬきとめぬたまぞちりける\n[歌人]文屋朝康" },
+        { question: "忘らるる身をば思はず誓ひてし", answer: "人の命の惜しくもあるかな\n[読み]わすらるるみをばおもわずちかいでし　ひとのいのちのおしくもあるかな\n[歌人]右近" },
+        { question: "浅茅生の小野の篠原忍ぶれど", answer: "あまりてなどか人の恋しき\n[読み]あさじうのおののしのはら　しのぶれど　あまりてなどかひとのこいしき\n[歌人]参議等" },
+        { question: "忍ぶれど色に出でにけりわが恋は", answer: "ものや思ふと人の問ふまで\n[読み]しのぶれどいろにいでにけりわがこいは　ものやおもふとひとのとふまで\n[歌人]平兼盛" },
+        { question: "恋すてふわが名はまだき立ちにけり", answer: "人知れずこそ思ひそめしか\n[読み]こいすてふわがなはまだきたちにけり　ひとしれずこそおもいそめしか\n[歌人]壬生忠見" },
+        { question: "契りきなかたみに袖をしぼりつつ", answer: "末の松山波越さじとは\n[読み]ちぎりきなかたみにそでをしぼりつつ　すえのまつやまなみこさじとは\n[歌人]清原元輔" },
+        { question: "逢ひ見てののちの心にくらぶれば", answer: "昔はものを思はざりけり\n[読み]あいみてののちのこころにくらべれば　むかしはものを　おもわざりけり\n[歌人]権中納言敦忠" },
+        { question: "逢ふことの絶えてしなくはなかなかに", answer: "人をも身をも恨みざらまし\n[読み]おうことのたえてしなくはなかなかに　ひとをもみをも　うらみざらまし\n[歌人]中納言朝忠" },
+        { question: "あはれともいふべき人は思ほえで", answer: "身のいたずらになりぬべきかな\n[読み]あわいともいうべきひとはおもおえで　みのいたずらになりぬべきかな\n[歌人]謙徳公" },
+        { question: "由良の門を渡る舟人かぢを絶え", answer: "ゆくへも知らぬ恋のみちかな\n[読み]ゆらのとをわたるふなびとかじをたえ　ゆくえもしらぬこいのみちかな\n[歌人]曾禰好忠" },
+        { question: "八重むぐら茂れる宿の寂しきに", answer: "人こそ見えね秋は来にけり\n[読み]やえむぐらしげれるやどのさびしきに　ひとこそみえねあきはきにけり\n[歌人]恵慶法師" },
+        { question: "風をいたみ岩打つ波のおのれのみ", answer: "くだけてものを思ふころかな\n[読み]かぜをいたみいわうつなみおのれのみ　くだけてものを　おもうころかな\n[歌人]源重之" },
+        { question: "御垣守衛士のたく火の夜は燃え", answer: "昼は消えつつものをこそ思へ\n[読み]みかきもりえじのたくひのよはもえ　ひるはきえつつものをこそおもえ\n[歌人]大中臣能宣朝臣" },
+        { question: "君がため惜しからざりし命さへ", answer: "長くもがなと思ひけるかな\n[読み]きみがためおしからざりしいのちさえ　ながくもがなとおもいけるかな\n[歌人]藤原義孝" },
+        { question: "かくとだにえやは伊吹のさしも草", answer: "さしも知らじな燃ゆる思ひを\n[読み]かくとだにえやはいぶきのさしもぐさ　さしもしらじなもゆるおもいを\n[歌人]藤原実方朝臣" },
+        { question: "明けぬれば暮るるものとは知りながら", answer: "なほ恨めしき朝ぼらけかな\n[読み]あけぬればくるるものとはしりながら　なおうらめしきあさぼらけかな\n[歌人]藤原道信朝臣" },
+        { question: "嘆きつつひとり寝る夜の明くる間は", answer: "いかに久しきものとかは知る\n[読み]なげきつつひとりぬるよのあくるまは　いかにひさしきものとかはしる\n[歌人]右大将道綱母" },
+        { question: "忘れじのゆく末まではかたければ", answer: "今日を限りの命ともがな\n[読み]わすれじのゆくすえまではかたければ　きょうをかぎりのいのちともがな\n[歌人]儀同三司母" },
+        { question: "滝の音は絶えて久しくなりぬれど", answer: "名こそ流れてなほ聞こえけれ\n[読み]たきのおとはたえてひさしくなりぬれど　なこそながれてなおきこえけれ\n[歌人]大納言公任" },
+        { question: "あらざらむこの世のほかの思ひ出に", answer: "いまひとたびの逢ふこともがな\n[読み]あらざらむこのよのほかのおもいでに　いまひとたびのあふこともがな\n[歌人]和泉式部" },
+        { question: "めぐり逢ひて見しやそれとも分かぬ間に", answer: "雲隠れにし夜半の月かな\n[読み]めぐりあいてみしやそれともわかぬまに　くもがくれにしよわのつきかな\n[歌人]紫式部" },
+        { question: "有馬山猪名のささ原風吹けば", answer: "いでそよ人を忘れやはする\n[読み]ありまやまゐなのささはらかぜふけば　いでそよひとをわすれやはする\n[歌人]大弐三位" },
+        { question: "やすらはで寝なましものをさ夜更けて", answer: "かたぶくまでの月を見しかな\n[読み]やすらわでねなましものをさよふけて　かたぶくまでのつきをみしかな\n[歌人]赤染衛門" },
+        { question: "大江山いく野の道の遠ければ", answer: "まだふみも見ず天の橋立\n[読み]おおえやまいくののみちのとおいければ　まだふみもみずあまのはしだて\n[歌人]小式部内侍" },
+        { question: "いにしへの奈良の都の八重桜", answer: "けふ九重に匂ひぬるかな\n[読み]いにしえのならのみやこのやえざくら　きょうここのえににおいぬるかな\n[歌人]伊勢大輔" },
+        { question: "夜をこめて鳥のそら音ははかるとも", answer: "よに逢坂の関は許さじ\n[読み]よをこめてとりのそらねははかるとも　よにあうさかのせきはゆるさじ\n[歌人]清少納言" },
+        { question: "今はただ思ひ絶えなむとばかりを", answer: "人づてならでいふよしもがな\n[読み]いまはただおもいたえなんとばかりを　ひとづてならでいふよしもがな\n[歌人]左京大夫道雅" },
+        { question: "朝ぼらけ宇治の川霧たえだえに", answer: "あらはれわたる瀬々の網代木\n[読み]あさぼらけうじのかわぎりたえだえに　あらわれわたるせぜのあじろぎ\n[歌人]権中納言定頼" },
+        { question: "恨みわび干さぬ袖だにあるものを", answer: "恋に朽ちなむ名こそ惜しけれ\n[読み]うらみわびほさぬそでだにあるものを　こいにくちなん　なこそおしけれ\n[歌人]相模" },
+        { question: "もろともにあはれと思え山桜", answer: "花よりほかに知る人もなし\n[読み]もろともにあわれとおもえやまさくら　はなよりほかにしるひともなし\n[歌人]前大僧正行尊" },
+        { question: "春の夜の夢ばかりなる手枕に", answer: "かひなく立たむ名こそをしけれ\n[読み]はるのよのゆめばかりなるたまくらに　かひなくたたん　なこそおしけれ\n[歌人]周防内侍" },
+        { question: "心にもあらで憂き世に長らへば", answer: "恋しかるべき夜半の月かな\n[読み]こころにもあらでうきよにながらえば　こいしかるべきよわのつきかな\n[歌人]三条院" },
+        { question: "嵐吹く三室の山のもみぢ葉は", answer: "竜田の川の錦なりけり\n[読み]あらしふくみむろのやまのもみじばは　たつたのかわのにしきなりけり\n[歌人]能因法師" },
+        { question: "寂しさに宿を立ち出でてながむれば", answer: "いづくも同じ秋の夕暮\n[読み]さびしさにやどをたちいでてながむれば　いづくもおなじあきのゆうぐれ\n[歌人]良暹法師" },
+        { question: "夕されば門田の稲葉おとづれて", answer: "蘆のまろ屋に秋風ぞ吹く\n[読み]ゆうさればかどたのいなばおとずれて　あしのまろやにあきかぜぞふく\n[歌人]大納言経信" },
+        { question: "音に聞く高師の浜のあだ波は", answer: "かけじや袖のぬれもこそすれ\n[読み]おとにきくたかしのはまのあだなみは　かけじやそでのぬれもこそすれ\n[歌人]祐子内親王家紀伊" },
+        { question: "高砂の尾の上の桜咲きにけり", answer: "外山のかすみ立たずもあらなむ\n[読み]たかさごのおのえのさくらさきにけり　とやまのかすみたたずもあらなん\n[歌人]前権中納言匡房（大江匡房）" },
+        { question: "憂かりける人を初瀬の山おろしよ", answer: "激しかれとは祈らぬものを\n[読み>うかりけるひとをはつせのやまおろしよ　はげしかれとはいのらぬものを\n[歌人]源俊頼朝臣" },
+        { question: "契りおきしさせもが露を命にて", answer: "あはれ今年の秋もいぬめり\n[読み]ちぎりおきしさしものがつゆをいのちにて　あはれことしのあきもいぬめり\n[歌人]藤原基俊" },
+        { question: "わたの原漕ぎ出でて見ればひさかたの", answer: "雲居にまがふ沖つ白波\n[読み>わたのはらこぎいでてみればひさかたの　くもいにまがふおきつしらなみ\n[歌人]法性寺入道前関白太政大臣（藤原忠通）" },
+        { question: "瀬をはやみ岩にせかるる滝川の", answer: "われても末に逢はむとぞ思ふ\n[読み>せをはやみいわにせかるるたきがわの　われてもすえにあわんとぞおもう\n[歌人]崇徳院" },
+        { question: "淡路島通ふ千鳥の鳴く声に", answer: "いく夜寝覚めぬ須磨の関守\n[読み>あわじしまかようちどりのなくこえに　いくよねざめぬすまのせきもり\n[歌人]源兼昌" },
+        { question: "秋風にたなびく雲のたえ間より", answer: "漏れ出づる月の影のさやけさ\n[読み>あきかぜにたなびくくものたえまより　もれいたるつきのかげのさやけさ\n[歌人]左京大夫顕輔" },
+        { question: "ながからむ心も知らず黒髪の", answer: "乱れてけさはものをこそ思へ\n[読み>ながからむこころもしらずくろかみの　みだれてけさはものをこそおもえ\n[歌人]待賢門院堀河" },
+        { question: "ほととぎす鳴きつる方をながむれば", answer: "ただ有明の月ぞ残れる\n[読み>ほととぎすなきつるかたをながむれば　ただありあけのつきぞのこれる\n[歌人]後徳大寺左大臣" },
+        { question: "思ひわびさても命はあるものを", answer: "憂きに堪へぬは涙なりけり\n[読み>おもいなびさてもいのちはあるものを　うきにたえぬはなみだなりけり\n[歌人]道因法師" },
+        { question: "世の中よ道こそなけれ思ひ入る", answer: "山の奥にも鹿ぞ鳴くなる\n[読み>よのなかよみちこそなけれおもいいる　やまのおくにもしかぞなくなる\n[歌人]皇太后宮大夫俊成" },
+        { question: "長らへばまたこのごろやしのばれむ", answer: "憂しと見し世ぞ今は恋しき\n[読み>ながらえばまたこのごろやしのばれん　うしとみしよぞいまはこいしき\n[歌人]藤原清輔朝臣" },
+        { question: "夜もすがらもの思ふころは明けやらで", answer: "ねやのひまさえつれなかりけり\n[読み>よもすがらものおもうころはあけやらで　ねやのひまさえつれなかりけり\n[歌人]俊恵法師" },
+        { question: "嘆けとて月やはものを思はする", answer: "かこちがほなるわが涙かな\n[読み>なげけとてつきやはものをおもわする　かこちがほなるわがなみだかな\n[歌人]西行法師" },
+        { question: "村雨の露もまだ干ぬまきの葉に", answer: "霧立ちのぼる秋の夕暮\n[読み>むらさめのつゆもまだひぬまきのはに　きりたちのぼるあきのゆうぐれ\n[歌人]寂蓮法師" },
+        { question: "難波江の蘆のかりねのひとよゆゑ", answer: "身を尽くしてや恋ひわたるべき\n[読み>なにはえのあしのかりねのひとよゆえ　みをつくしてやこいわたるべき\n[歌人]皇嘉門院別当" },
+        { question: "玉の緒よ絶えなば絶えねながらへば", answer: "忍ぶることの弱りもぞする\n[読み>たまのおよたえなばたえねながらへば　しのぶることのよわりもぞする\n[歌人]式子内親王" },
+        { question: "見せばやな雄島のあまの袖だにも", answer: "濡れにぞ濡れし色は変はらず\n[読み>みせばやなおじまのあまのそでだにも　ぬれにぞぬれしいろはかわらず\n[歌人]殷富門院大輔" },
+        { question: "きりぎりす鳴くや霜夜のさむしろに", answer: "衣かたしきひとりかも寝む\n[読み>きりぎりすなくやしもよのさむしろに　ころもかたしきひとりかもねむ\n[歌人]後京極摂政前太政大臣" },
+        { question: "わが袖は潮干に見えぬ沖の石の", answer: "人こそ知らねかわく間もなし\n[読み>わがそではしおひにみえぬおきのいしの　ひとこそしらねかわくまもなし\n[歌人]二条院讃岐" },
+        { question: "世の中は常にもがもな渚漕ぐ", answer: "あまの小舟の綱手かなしも\n[読み>よのなかはつねにもがもななぎさこぐ　あまのおぶねのつなでかなしも\n[歌人]鎌倉右大臣" },
+        { question: "み吉野の山の秋風さよ更けて", answer: "ふるさと寒く衣打つなり\n[読み>みよしののやまのあきかぜさよふけて　ふるさとさむくころもうつなり\n[歌人]参議雅経" },
+        { question: "おほけなく憂き世の民におほふかな", answer: "わが立つ杣に墨染の袖\n[読み>おおけなくうきよのたみにおおふかな　わがたつそまにすみぞめのそで\n[歌人]前大僧正慈円" },
+        { question: "花さそふ嵐の庭の雪ならで", answer: "ふりゆくものはわが身なりけり\n[読み>はなさそうあらしのにわのゆきならで　ふりゆくものはわがみなりけり\n[歌人]入道前太政大臣" },
+        { question: "来ぬ人をまつほの浦の夕なぎに", answer: "焼くや藻塩の身もこがれつつ\n[読み>こぬひとをまつほのうらのゆうなぎに　やくやもしおのみもこがれつつ\n[歌人]権中納言定家" },
+        { question: "風そよぐ楢の小川の夕暮は", answer: "御禊ぞ夏のしるしなりける\n[読み>かぜそよぐならのおがわのゆうぐれは　みそぎぞなつのしるしなりける\n[歌人]従二位家隆" },
+        { question: "人もをし人も恨めしあぢきなく", answer: "世を思ふゆゑにもの思ふ身は\n[読み>ひともをしひともうらめしあぢきなく　よをおもふゆえにものおもふみは\n[歌人]後鳥羽院" },
+        { question: "百敷や古き軒端のしのぶにも", answer: "なほ余りある昔なりけり\n[読み>ももしきやふるきのきばのしのぶにも　なほあまりあるむかしなりけり\n[歌人]順徳院" }
+    ];
+
+    const poemListElement = document.getElementById("poemList"); // HTMLに <div id="poemList"> を追加してください
+    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+    const header = document.querySelector('header');
+
+    const sidebar = document.getElementById("mySidebar");
+    const openSidebarBtn = document.querySelector(".openbtn");
+    const closeSidebarBtn = document.querySelector(".closebtn");
+    const overlay = document.getElementById("sidebarOverlay");
+    const sidebarLinks = sidebar.querySelectorAll('ul li a');
+
+    function setBodyPaddingTop() {
+        const headerHeight = header.offsetHeight;
+        document.body.style.paddingTop = `${headerHeight}px`;
+        sidebar.style.paddingTop = `${headerHeight}px`;
+    }
+
+    function debounce(func, delay) {
+        let timeout;
+        return function(...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), delay);
+        };
+    }
+
+    function openNav() {
+        sidebar.classList.add('active');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        openSidebarBtn.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeNav() {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+        openSidebarBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    window.addEventListener('DOMContentLoaded', setBodyPaddingTop);
+    window.addEventListener('resize', debounce(setBodyPaddingTop, 100));
+
+    openSidebarBtn.addEventListener('click', openNav);
+    closeSidebarBtn.addEventListener('click', closeNav);
+    overlay.addEventListener('click', closeNav);
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', closeNav);
+    });
+
+    // 句のリストを動的に生成
+    poems.forEach((poem, index) => {
+        // 各句のコンテナとなるdiv要素を作成
+        const poemItemDiv = document.createElement("div");
+        poemItemDiv.className = "poem-item"; // CSSでスタイルを適用できるようにクラス名を設定
+        poemItemDiv.style.border = '1px solid #ccc';
+        poemItemDiv.style.padding = '15px';
+        poemItemDiv.style.margin = '10px auto';
+        poemItemDiv.style.borderRadius = '8px';
+        poemItemDiv.style.maxWidth = '600px';
+        poemItemDiv.style.backgroundColor = '#fff';
+        poemItemDiv.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+        poemItemDiv.style.textAlign = 'left';
+
+        // 句の番号を表示
+        const poemNumber = document.createElement("p");
+        poemNumber.textContent = `第${index + 1}番`;
+        poemNumber.style.fontWeight = 'bold';
+        poemNumber.style.color = '#333';
+        poemNumber.style.marginBottom = '5px';
+        poemItemDiv.appendChild(poemNumber);
+
+        // 上の句と下の句を表示
+        const answerParts = poem.answer.split('\n');
+        const lowerPoem = answerParts[0];
+        const readingAndPoet = answerParts.length > 1 ? answerParts.slice(1).join('\n') : '';
+
+        const poemText = document.createElement("p");
+        poemText.style.fontSize = '1.1em';
+        poemText.style.color = '#555';
+        poemText.innerHTML = `${poem.question}<br>${lowerPoem}`; // questionとlowerPoemを改行で表示
+        poemItemDiv.appendChild(poemText);
+
+        // 読みと歌人を表示
+        if (readingAndPoet) {
+            const poemReading = document.createElement("p");
+            poemReading.style.fontSize = '0.9em';
+            poemReading.style.color = '#777';
+            poemReading.innerHTML = readingAndPoet.replace(/\n/g, '<br>'); // 読みと歌人を改行で表示
+            poemItemDiv.appendChild(poemReading);
+        }
+
+        // YouTubeへのリンクを追加
+        if (poem.youtubeUrl) {
+            const youtubeLinkP = document.createElement('p');
+            const youtubeLink = document.createElement('a');
+            youtubeLink.href = poem.youtubeUrl;
+            youtubeLink.textContent = '読み上げ音声はこちらから';
+            youtubeLink.target = '_blank'; // 新しいタブで開く
+            youtubeLink.style.display = 'inline-block';
+            youtubeLink.style.marginTop = '10px';
+            youtubeLink.style.padding = '8px 15px';
+            youtubeLink.style.backgroundColor = '#FF0000'; // YouTubeカラー
+            youtubeLink.style.color = 'white';
+            youtubeLink.style.textDecoration = 'none';
+            youtubeLink.style.borderRadius = '5px';
+            youtubeLink.style.fontWeight = 'bold';
+            youtubeLink.style.transition = 'background-color 0.3s ease';
+            youtubeLink.onmouseover = () => youtubeLink.style.backgroundColor = '#CC0000';
+            youtubeLink.onmouseout = () => youtubeLink.style.backgroundColor = '#FF0000';
+
+            youtubeLinkP.appendChild(youtubeLink);
+            poemItemDiv.appendChild(youtubeLinkP);
+        } else {
+            // youtubeUrlがない場合の表示（任意）
+            const noAudioP = document.createElement('p');
+            noAudioP.textContent = '※読み上げ音声はありません';
+            noAudioP.style.fontSize = '0.9em';
+            noAudioP.style.color = '#888';
+            noAudioP.style.marginTop = '10px';
+            poemItemDiv.appendChild(noAudioP);
+        }
+
+        // 生成した句の要素をリストコンテナに追加
+        poemListElement.appendChild(poemItemDiv);
+    });
+
+    // フッターの年を自動更新
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+    });
+
+    // スクロールトップボタンの表示/非表示
+    window.onscroll = function() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            scrollToTopBtn.style.display = "block";
+        } else {
+            scrollToTopBtn.style.display = "none";
+        }
+    };
+
+    // スクロールトップボタンのクリックイベント
+    scrollToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>
+</body>
+</html>
