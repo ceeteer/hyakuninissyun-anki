@@ -81,29 +81,57 @@ right: 0;
             width: 48px; /* メニューボタンとほぼ同じ幅に設定 */
             height: 1px;
             }    /* ダミーなので最小限の高さ */
-        .karuta-link-box {
-            position: fixed; /* ヘッダーのすぐ下に固定配置 */
-            top: 80px; /* ヘッダーの高さに合わせて調整 (bodyのpadding-topと同じ値) */
-            right: 0px; /* 右端からの距離 */
-            background-color: #4CAF50; /* 少し濃いめの緑色 */
-            color: white;
-            padding: 8px 15px; /* 上下、左右のパディング */
-            border-radius: 5px; /* 角を丸くする */
-            text-decoration: none; /* 下線なし */
-            font-size: 0.9em; /* フォントサイズ */
-            white-space: nowrap; /* テキストが折り返さないように */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 影 */
-            z-index: 998; /* ヘッダー (1000) やサイドバー (1001) より下、通常のコンテンツより上 */
-            display: flex; /* テキストを中央寄せ */
-            align-items: center; /* 垂直方向中央寄せ */
-            justify-content: center; /* 水平方向中央寄せ */
-            min-width: 200px; /* 最小幅を設定して細長く見せる */
-            height: 40px; /* 高さを設定 */
-        }
+   
 
-        .karuta-link-box:hover {
-            background-color: #45a049; /* ホバー時の色 */
-        }
+.karuta-link-box {
+    position: fixed;
+    top: 80px;
+    right: 0px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9em;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 変更点: min-width を width に変更し、固定幅を設定 */
+    width: 250px; /* 例として250pxに設定。必要に応じて調整してください */
+    height: 40px;
+}
+
+.karuta-link-box:hover {
+    background-color: #45a049;
+}
+
+.rulu-link-box {
+    position: fixed;
+    top: 136px;
+    right: 0px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9em;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 変更点: min-width を width に変更し、karuta-link-box と同じ固定幅を設定 */
+    width: 250px; /* karuta-link-box と同じ値に設定してください */
+    height: 40px;
+}
+
+.rulu-link-box:hover {
+    background-color: #45a049;
+}
 
 
 
@@ -497,6 +525,8 @@ right: 0;
         <div class="header-right-spacer"></div>
         <a href="https://www.karuta.or.jp/
 " class="karuta-link-box">競技かるたへ興味のある方はこちらから</a>
+<a href="https://youtu.be/uL_GVMQo_-Y?si=u-UV2HNQE3WzWG1Q/" class="rulu-link-box">ルール解説動画</a>
+                                                   
     </header>
 
     <div id="mySidebar" class="sidebar">

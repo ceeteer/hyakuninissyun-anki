@@ -102,13 +102,38 @@ right: 0;
             display: flex; /* テキストを中央寄せ */
             align-items: center; /* 垂直方向中央寄せ */
             justify-content: center; /* 水平方向中央寄せ */
-            min-width: 200px; /* 最小幅を設定して細長く見せる */
+            width: 250px; /* 最小幅を設定して細長く見せる */
             height: 40px; /* 高さを設定 */
         }
 
         .karuta-link-box:hover {
             background-color: #45a049; /* ホバー時の色 */
         }
+
+        .rulu-link-box {
+    position: fixed;
+    top: 136px;
+    right: 0px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9em;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 変更点: min-width を width に変更し、karuta-link-box と同じ固定幅を設定 */
+    width: 250px; /* karuta-link-box と同じ値に設定してください */
+    height: 40px;
+}
+
+.rulu-link-box:hover {
+    background-color: #45a049;
+}
 
 
         /* --- サイドバースタイルの追加 --- */
@@ -299,6 +324,7 @@ right: 0;
         <div class="header-right-spacer"></div>
          <a href="https://www.karuta.or.jp/
 " class="karuta-link-box">競技かるたへ興味のある方はこちらから</a>
+<a href="https://youtu.be/uL_GVMQo_-Y?si=u-UV2HNQE3WzWG1Q/" class="rulu-link-box">ルール解説動画</a>
     </header>
 
 
@@ -348,16 +374,16 @@ right: 0;
         { question: "住の江の岸に寄る波よるさへや", answer: "夢の通ひ路人目よくらむ\n[読み]すみのえのきしによるなみよるさえや　ゆめのかよいじひとめよくらむ\n[歌人]藤原敏行朝臣",youtubeUrl:"https://youtu.be/tLgLo0u3v58?si=pLCuAPQTgAUy8PCN" },
         { question: "難波潟短き蘆のふしの間も", answer: "逢はでこの世を過ぐしてよとや\n[読み]なにわがたみじかきあしのふしのまも　あわでこのよをすぐしてよとや\n[歌人]伊勢" ,youtubeUrl:"https://youtu.be/AlSSCeI_D6g?si=fSjTJ04Z23NVEW63"},
         { question: "わびぬれば今はたおなじ難波なる", answer: "みをつくしても逢はむとぞ思ふ\n[読み]わびぬればいまはたおなじなにわなる　みをつくしてもあわんとぞおもう\n[歌人]元良親王" ,youtubeUrl:"https://youtu.be/8u_wUaHfkv8?si=W1Lwkor8OGEVw_T8"},
-        { question: "今来むといひしばかりに長月の", answer: "有明の月を待ち出でつるかな\n[読み]いまこむといひしばかりにながつきの　ありあけのつきをまちいでつるかな\n[歌人]素性法師" },
-        { question: "吹くからに秋の草木のしをるれば", answer: "むべ山風をあらしといふらむ\n[読み]ふくからにあきのくさきのしおるれば　むべやまかぜをあらしというらん\n[歌人]文屋康秀" },
-        { question: "月見ればちぢにものこそ悲しけれ", answer: "わが身ひとつの秋にはあらねど\n[読み]つきみればちぢにものこそかなしけれ　わがみひとつのあきにはあらねど\n[歌人]大江千里" },
-        { question: "このたびは幣も取りあへず手向山", answer: "紅葉の錦神のまにまに\n[読み]このたびはぬさもとりあえずたむけやま　もみじのにしきかみのみまにまに\n[歌人]菅家" },
-        { question: "名にし負はば逢坂山のさねかづら", answer: "人に知られで来るよしもがな\n[読み]なにしおわばおうさかやまのさねかずら　ひとにしられでくるよしもがな\n[歌人]三条右大臣" },
-        { question: "小倉山峰の紅葉葉心あらば", answer: "いまひとたびのみゆき待たなむ\n[読み]おぐらやまみねのもみじばこころあらば　いまひとたびのみゆきまたなん\n[歌人]貞信公" },
-        { question: "みかの原わきて流るるいづみ川", answer: "いつ見きとてか恋しかるらむ\n[読み]みかのはらわきてながるるいずみがわ　いつみきとてかこいしかるらむ\n[歌人]中納言兼輔" },
-        { question: "山里は冬ぞ寂しさまさりける", answer: "人目も草もかれぬと思へば\n[読み]やまざとはふゆぞさびしさまさりける　ひとめもくさもかれぬとおもえば\n[歌人]源宗于朝臣" },
-        { question: "心あてに折らばや折らむ初霜の", answer: "置きまどはせる白菊の花\n[読み]こころあてにおらばやおらん　はつしもの　おきまどはせるしらぎくのはな\n[歌人]凡河内躬恒" },
-        { question: "有明のつれなく見えし別れより", answer: "暁ばかり憂きものはなし\n[読み]ありあけのつれなくみえしわかれより　あかつきばかりうきものはなし\n[歌人]壬生忠岑" },
+        { question: "今来むといひしばかりに長月の", answer: "有明の月を待ち出でつるかな\n[読み]いまこむといひしばかりにながつきの　ありあけのつきをまちいでつるかな\n[歌人]素性法師",youtubeUrl:"https://youtu.be/0pABzPuGvX4?si=ZqCtSU2tSIv3fpj8" },
+        { question: "吹くからに秋の草木のしをるれば", answer: "むべ山風をあらしといふらむ\n[読み]ふくからにあきのくさきのしおるれば　むべやまかぜをあらしというらん\n[歌人]文屋康秀",youtubeUrl:"https://youtu.be/tXys4Hk56GU?si=RMud7AhoXWu9X7tS" },
+        { question: "月見ればちぢにものこそ悲しけれ", answer: "わが身ひとつの秋にはあらねど\n[読み]つきみればちぢにものこそかなしけれ　わがみひとつのあきにはあらねど\n[歌人]大江千里" ,youtubeUrl:"https://youtu.be/-WVvFbFbyJo?si=EXk0X2yAZqs9Gjfk"},
+        { question: "このたびは幣も取りあへず手向山", answer: "紅葉の錦神のまにまに\n[読み]このたびはぬさもとりあえずたむけやま　もみじのにしきかみのみまにまに\n[歌人]菅家" ,youtubeUrl:"https://youtu.be/EhcA7eTqdj4?si=EzbIXaR0XuSy7d5X"},
+        { question: "名にし負はば逢坂山のさねかづら", answer: "人に知られで来るよしもがな\n[読み]なにしおわばおうさかやまのさねかずら　ひとにしられでくるよしもがな\n[歌人]三条右大臣",youtubeUrl:"https://youtu.be/Jel4OJaIDQ8?si=c_rtIASOdPejlq4Y" },
+        { question: "小倉山峰の紅葉葉心あらば", answer: "いまひとたびのみゆき待たなむ\n[読み]おぐらやまみねのもみじばこころあらば　いまひとたびのみゆきまたなん\n[歌人]貞信公" ,youtubeUrl:"https://youtu.be/1fWsUg_r3I0?si=EPad9kvOR7VJRnPs"},
+        { question: "みかの原わきて流るるいづみ川", answer: "いつ見きとてか恋しかるらむ\n[読み]みかのはらわきてながるるいずみがわ　いつみきとてかこいしかるらむ\n[歌人]中納言兼輔" ,youtubeUrl:"https://youtu.be/U3M-pO54-xs?si=zLhch9d4SBsQ6T6G"},
+        { question: "山里は冬ぞ寂しさまさりける", answer: "人目も草もかれぬと思へば\n[読み]やまざとはふゆぞさびしさまさりける　ひとめもくさもかれぬとおもえば\n[歌人]源宗于朝臣" ,youtubeUrl:"https://youtu.be/DvxClofd2tI?si=tLCpOCtfZ5LdO2W6"},
+        { question: "心あてに折らばや折らむ初霜の", answer: "置きまどはせる白菊の花\n[読み]こころあてにおらばやおらん　はつしもの　おきまどはせるしらぎくのはな\n[歌人]凡河内躬恒",youtubeUrl:"https://youtu.be/fNJxH8oKmgU?si=LupPfSNWsFxiBzDS" },
+        { question: "有明のつれなく見えし別れより", answer: "暁ばかり憂きものはなし\n[読み]ありあけのつれなくみえしわかれより　あかつきばかりうきものはなし\n[歌人]壬生忠岑" ,youtubeUrl:"https://youtu.be/PhGQ8aL74yc?si=k_UpGgpekh9gsC97"},
         { question: "朝ぼらけ有明の月と見るまでに", answer: "吉野の里に降れる白雪\n[読み]あさぼらけありあけのつきとみるまでに　よしののさとにふれるしらゆき\n[歌人]坂上是則" },
         { question: "山川に風のかけたるしがらみは", answer: "流れもあへぬ紅葉なりけり\n[読み]やまがわにかぜのかけたるしがらみは　ながれもあえぬもみじなりけり\n[歌人]春道列樹" },
         { question: "ひさかたの光のどけき春の日に", answer: "しづ心なく花の散るらむ\n[読み]ひさかたのひかりのどけきはるのひに　しづごころなくはなのちるらむ\n[歌人]紀友則" },
