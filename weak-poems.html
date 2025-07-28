@@ -20,6 +20,43 @@
             overflow-x: hidden;
         }
 
+.svg-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-grow: 1;
+}
+.svg-title svg {
+  height: 40px; /* ← 高さを抑えめに */
+  width: auto;
+}
+
+.svg-title svg text {
+  font-size: 30px;
+  fill: url(#gradient); /* グラデーションで塗る */
+  stroke: black;
+  stroke-width: 1px;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawText 3s ease forwards, fadeInFill 3s ease-in-out 1.5s forwards;
+}
+
+@keyframes drawText {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeInFill {
+  from {
+    fill: transparent;
+  }
+  to {
+    fill: #333;
+  }
+}
+
         .hero-left, .hero-right {
     position: fixed; /* ヘッダーとフッターの間で固定 */
     top: 78px; /* ヘッダーの高さに合わせる */
@@ -55,13 +92,37 @@ right: 0;
             display: flex; /* テキストを中央寄せ */
             align-items: center; /* 垂直方向中央寄せ */
             justify-content: center; /* 水平方向中央寄せ */
-            min-width: 200px; /* 最小幅を設定して細長く見せる */
+            width: 250px; /* 最小幅を設定して細長く見せる */
             height: 40px; /* 高さを設定 */
         }
 
         .karuta-link-box:hover {
             background-color: #45a049; /* ホバー時の色 */
         }
+              .rulu-link-box {
+    position: fixed;
+    top: 136px;
+    right: 0px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9em;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 変更点: min-width を width に変更し、karuta-link-box と同じ固定幅を設定 */
+    width: 250px; /* karuta-link-box と同じ値に設定してください */
+    height: 40px;
+}
+
+.rulu-link-box:hover {
+    background-color: #45a049;
+}
 
         header {
             background: #90EE90;
@@ -87,6 +148,7 @@ right: 0;
             font-family: 'Noto Serif JP', serif;
             flex-grow: 1;
             text-align: center;
+            
         }
 
         .header-icon {
@@ -98,6 +160,31 @@ right: 0;
             vertical-align: middle; /* タイトルと縦方向を揃える */
             /* positionとleftは削除 */
         }
+
+
+        .header-icon {
+  height: 40px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.svg-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.svg-title svg text {
+  font-size: 30px;
+  fill: #333;
+  animation: fadeInText 2s ease-in-out forwards;
+}
+
+@keyframes fadeInText {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
         header .header-right-spacer {
             width: 48px;
@@ -248,14 +335,19 @@ right: 0;
      <div class="hero-left"></div>
     <div class="hero-right"></div>
     <header>
-        <button class="open-sidebar-btn" aria-label="メニューを開く" onclick="openNav()">
-            ☰
-        </button>
-        
-        <h1><img src="images/karuta.png" alt="カルタのアイコン" class="header-icon">百人一瞬暗記 </h1>
-        <div class="header-right-spacer"></div>
+        <button class="open-sidebar-btn" onclick="openSidebar()">☰</button>
+  <h1 class="svg-title">
+    <img src="images/karuta.png" alt="カルタのアイコン" class="header-icon">
+    <svg viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">
+        百人一瞬暗記
+      </text>
+    </svg>
+  </h1>
+  <div class="header-right-spacer"></div>
          <a href="https://www.karuta.or.jp/
 " class="karuta-link-box">競技かるたへ興味のある方はこちらから</a>
+<a href="https://youtu.be/uL_GVMQo_-Y?si=u-UV2HNQE3WzWG1Q/" class="rulu-link-box">ルール解説動画</a>
         
     </header>
 

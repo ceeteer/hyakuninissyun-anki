@@ -19,6 +19,44 @@
             overflow-x: hidden; /* サイドバーが開いたときに横スクロールバーが表示されるのを防ぐ */
         }
 
+
+        .svg-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-grow: 1;
+}
+.svg-title svg {
+  height: 40px; /* ← 高さを抑えめに */
+  width: auto;
+}
+
+.svg-title svg text {
+  font-size: 30px;
+  fill: url(#gradient); /* グラデーションで塗る */
+  stroke: black;
+  stroke-width: 1px;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawText 3s ease forwards, fadeInFill 3s ease-in-out 1.5s forwards;
+}
+
+@keyframes drawText {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeInFill {
+  from {
+    fill: transparent;
+  }
+  to {
+    fill: #333;
+  }
+}
+
         .hero-left, .hero-right {
     position: fixed; /* ヘッダーとフッターの間で固定 */
     top: 77px; /* ヘッダーの高さに合わせる */
@@ -311,21 +349,100 @@ right: 0;
         #scrollToTopBtn:hover {
             background-color: #777; /* ホバー時の背景色 */
         }
+
+        /* --- お知らせエリアのスタイル (追加) --- */
+        .announcement-area {
+            position: fixed;
+            top: 192px;
+            left: auto; /* ルール解説動画リンクボックスの下に配置 */
+            right: 0px;
+            
+            width: 280px; /* リンクボックスと同じ幅 */
+            z-index: 998;
+            padding: 0 10px 10px 10px; /* 上は0にして、下にパディング */
+            
+    
+        }
+
+        .announcement-outer-box {
+            border: 4px solid #4CAF50; /* 太い緑の線 */
+            border-radius: 8px;
+            padding: 5px; /* 内側の余白 */
+            background-color: #f9f9f9; /* 背景色 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .announcement-title-box {
+            border: 2px solid #90EE90; /* 中のお知らせ文字を囲む線 */
+            background-color: #e0ffe0; /* 薄い緑の背景 */
+            color: #333;
+            padding: 5px 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px; /* お知らせ内容との間隔 */
+            border-radius: 5px;
+            position: relative; /* NEWタグの配置用 */
+        }
+
+        .announcement-content {
+            font-size: 0.95em;
+            line-height: 1.5;
+            padding: 5px;
+            border: 1px dashed #ccc; /* 編集可能であることを示す点線 */
+            min-height: 50px; /* 最小の高さ */
+            background-color: white;
+            border-radius: 5px;
+            overflow-y: auto; /* 内容が多い場合にスクロール */
+            max-height: 150px; /* 最大の高さ */
+            text-align: left; /* テキストを左寄せ */
+        }
+
+        .announcement-content:focus {
+            outline: none; /* フォーカス時のアウトラインを削除 */
+            border-color: #4CAF50; /* フォーカス時に色を変える */
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        .new-tag {
+            background-color: #ff5722; /* オレンジ系のNEWタグ */
+            color: white;
+            font-size: 0.7em;
+            padding: 2px 6px;
+            border-radius: 3px;
+            position: absolute;
+            top: -8px; /* タイトルボックスの上に少しはみ出す */
+            right: -8px; /* 右上に配置 */
+            transform: rotate(10deg); /* 少し斜めにする */
+            font-weight: bold;
+            display: none; /* 初期は非表示 */
+        }
     </style>
 </head>
 <body>
     <div class="hero-left"></div>
     <div class="hero-right"></div>
     <header>
-        <button class="openbtn" onclick="openNav()">&#9776;</button>
-        <h1>
-            <img src="images/karuta.png" alt="カルタのアイコン" class="header-icon"> 百人一瞬暗記
-        </h1>
-        <div class="header-right-spacer"></div>
+     <button class="openbtn" onclick="openNav()">&#9776;</button>
+            <h1>
+                <img src="images/karuta.png" alt="" class="header-icon">
+                百人一瞬暗記
+            </h1>
+  <div class="header-right-spacer"></div>
          <a href="https://www.karuta.or.jp/
 " class="karuta-link-box">競技かるたへ興味のある方はこちらから</a>
 <a href="https://youtu.be/uL_GVMQo_-Y?si=u-UV2HNQE3WzWG1Q/" class="rulu-link-box">ルール解説動画</a>
     </header>
+<div class="announcement-area">
+   <div class="announcement-outer-box">
+       <div class="announcement-title-box">
+           <h3>お知らせ<span id="newTag" class="new-tag">NEW</span></h3>
+       </div>
+       <p id="announcementContent" class="announcement-content">
+        ・部分的に修正中です！
+         </p>
+   </div>
+</div>
 
 
     <div id="mySidebar" class="sidebar">
@@ -384,36 +501,36 @@ right: 0;
         { question: "山里は冬ぞ寂しさまさりける", answer: "人目も草もかれぬと思へば\n[読み]やまざとはふゆぞさびしさまさりける　ひとめもくさもかれぬとおもえば\n[歌人]源宗于朝臣" ,youtubeUrl:"https://youtu.be/DvxClofd2tI?si=tLCpOCtfZ5LdO2W6"},
         { question: "心あてに折らばや折らむ初霜の", answer: "置きまどはせる白菊の花\n[読み]こころあてにおらばやおらん　はつしもの　おきまどはせるしらぎくのはな\n[歌人]凡河内躬恒",youtubeUrl:"https://youtu.be/fNJxH8oKmgU?si=LupPfSNWsFxiBzDS" },
         { question: "有明のつれなく見えし別れより", answer: "暁ばかり憂きものはなし\n[読み]ありあけのつれなくみえしわかれより　あかつきばかりうきものはなし\n[歌人]壬生忠岑" ,youtubeUrl:"https://youtu.be/PhGQ8aL74yc?si=k_UpGgpekh9gsC97"},
-        { question: "朝ぼらけ有明の月と見るまでに", answer: "吉野の里に降れる白雪\n[読み]あさぼらけありあけのつきとみるまでに　よしののさとにふれるしらゆき\n[歌人]坂上是則" },
-        { question: "山川に風のかけたるしがらみは", answer: "流れもあへぬ紅葉なりけり\n[読み]やまがわにかぜのかけたるしがらみは　ながれもあえぬもみじなりけり\n[歌人]春道列樹" },
-        { question: "ひさかたの光のどけき春の日に", answer: "しづ心なく花の散るらむ\n[読み]ひさかたのひかりのどけきはるのひに　しづごころなくはなのちるらむ\n[歌人]紀友則" },
-        { question: "誰をかも知る人にせむ高砂の", answer: "松も昔の友ならなくに\n[読み]たれをかもしるひとにせんたかさごの　まつもむかしのともならなくに\n[歌人]藤原興風" },
-        { question: "人はいさ心も知らずふるさとは", answer: "花ぞ昔の香に匂ひける\n[読み]ひとはいさこころもしらずふるさとは　はなぞむかしのかににおひける\n[歌人]紀貫之" },
-        { question: "夏の夜はまだ宵ながら明けぬるを", answer: "雲のいづこに月宿るらむ\n[読み]なつのよはまだよいながらあけぬるを　くものいづこにつきやどるらむ\n[歌人]清原深養父" },
-        { question: "白露に風の吹きしく秋の野は", answer: "つらぬきとめぬ玉ぞ散りける\n[読み]しらつゆにかぜのふきしくあきののは　つらぬきとめぬたまぞちりける\n[歌人]文屋朝康" },
-        { question: "忘らるる身をば思はず誓ひてし", answer: "人の命の惜しくもあるかな\n[読み]わすらるるみをばおもわずちかいでし　ひとのいのちのおしくもあるかな\n[歌人]右近" },
-        { question: "浅茅生の小野の篠原忍ぶれど", answer: "あまりてなどか人の恋しき\n[読み]あさじうのおののしのはら　しのぶれど　あまりてなどかひとのこいしき\n[歌人]参議等" },
-        { question: "忍ぶれど色に出でにけりわが恋は", answer: "ものや思ふと人の問ふまで\n[読み]しのぶれどいろにいでにけりわがこいは　ものやおもふとひとのとふまで\n[歌人]平兼盛" },
-        { question: "恋すてふわが名はまだき立ちにけり", answer: "人知れずこそ思ひそめしか\n[読み]こいすてふわがなはまだきたちにけり　ひとしれずこそおもいそめしか\n[歌人]壬生忠見" },
-        { question: "契りきなかたみに袖をしぼりつつ", answer: "末の松山波越さじとは\n[読み]ちぎりきなかたみにそでをしぼりつつ　すえのまつやまなみこさじとは\n[歌人]清原元輔" },
-        { question: "逢ひ見てののちの心にくらぶれば", answer: "昔はものを思はざりけり\n[読み]あいみてののちのこころにくらべれば　むかしはものを　おもわざりけり\n[歌人]権中納言敦忠" },
-        { question: "逢ふことの絶えてしなくはなかなかに", answer: "人をも身をも恨みざらまし\n[読み]おうことのたえてしなくはなかなかに　ひとをもみをも　うらみざらまし\n[歌人]中納言朝忠" },
-        { question: "あはれともいふべき人は思ほえで", answer: "身のいたずらになりぬべきかな\n[読み]あわいともいうべきひとはおもおえで　みのいたずらになりぬべきかな\n[歌人]謙徳公" },
-        { question: "由良の門を渡る舟人かぢを絶え", answer: "ゆくへも知らぬ恋のみちかな\n[読み]ゆらのとをわたるふなびとかじをたえ　ゆくえもしらぬこいのみちかな\n[歌人]曾禰好忠" },
-        { question: "八重むぐら茂れる宿の寂しきに", answer: "人こそ見えね秋は来にけり\n[読み]やえむぐらしげれるやどのさびしきに　ひとこそみえねあきはきにけり\n[歌人]恵慶法師" },
-        { question: "風をいたみ岩打つ波のおのれのみ", answer: "くだけてものを思ふころかな\n[読み]かぜをいたみいわうつなみおのれのみ　くだけてものを　おもうころかな\n[歌人]源重之" },
-        { question: "御垣守衛士のたく火の夜は燃え", answer: "昼は消えつつものをこそ思へ\n[読み]みかきもりえじのたくひのよはもえ　ひるはきえつつものをこそおもえ\n[歌人]大中臣能宣朝臣" },
-        { question: "君がため惜しからざりし命さへ", answer: "長くもがなと思ひけるかな\n[読み]きみがためおしからざりしいのちさえ　ながくもがなとおもいけるかな\n[歌人]藤原義孝" },
-        { question: "かくとだにえやは伊吹のさしも草", answer: "さしも知らじな燃ゆる思ひを\n[読み]かくとだにえやはいぶきのさしもぐさ　さしもしらじなもゆるおもいを\n[歌人]藤原実方朝臣" },
-        { question: "明けぬれば暮るるものとは知りながら", answer: "なほ恨めしき朝ぼらけかな\n[読み]あけぬればくるるものとはしりながら　なおうらめしきあさぼらけかな\n[歌人]藤原道信朝臣" },
-        { question: "嘆きつつひとり寝る夜の明くる間は", answer: "いかに久しきものとかは知る\n[読み]なげきつつひとりぬるよのあくるまは　いかにひさしきものとかはしる\n[歌人]右大将道綱母" },
-        { question: "忘れじのゆく末まではかたければ", answer: "今日を限りの命ともがな\n[読み]わすれじのゆくすえまではかたければ　きょうをかぎりのいのちともがな\n[歌人]儀同三司母" },
-        { question: "滝の音は絶えて久しくなりぬれど", answer: "名こそ流れてなほ聞こえけれ\n[読み]たきのおとはたえてひさしくなりぬれど　なこそながれてなおきこえけれ\n[歌人]大納言公任" },
-        { question: "あらざらむこの世のほかの思ひ出に", answer: "いまひとたびの逢ふこともがな\n[読み]あらざらむこのよのほかのおもいでに　いまひとたびのあふこともがな\n[歌人]和泉式部" },
-        { question: "めぐり逢ひて見しやそれとも分かぬ間に", answer: "雲隠れにし夜半の月かな\n[読み]めぐりあいてみしやそれともわかぬまに　くもがくれにしよわのつきかな\n[歌人]紫式部" },
-        { question: "有馬山猪名のささ原風吹けば", answer: "いでそよ人を忘れやはする\n[読み]ありまやまゐなのささはらかぜふけば　いでそよひとをわすれやはする\n[歌人]大弐三位" },
-        { question: "やすらはで寝なましものをさ夜更けて", answer: "かたぶくまでの月を見しかな\n[読み]やすらわでねなましものをさよふけて　かたぶくまでのつきをみしかな\n[歌人]赤染衛門" },
-        { question: "大江山いく野の道の遠ければ", answer: "まだふみも見ず天の橋立\n[読み]おおえやまいくののみちのとおいければ　まだふみもみずあまのはしだて\n[歌人]小式部内侍" },
+        { question: "朝ぼらけ有明の月と見るまでに", answer: "吉野の里に降れる白雪\n[読み]あさぼらけありあけのつきとみるまでに　よしののさとにふれるしらゆき\n[歌人]坂上是則",youtubeUrl:"https://youtu.be/qfURi81hS1o?si=0w74yK2_Z7xf95ps" },
+        { question: "山川に風のかけたるしがらみは", answer: "流れもあへぬ紅葉なりけり\n[読み]やまがわにかぜのかけたるしがらみは　ながれもあえぬもみじなりけり\n[歌人]春道列樹" ,youtubeUrl:"https://youtu.be/QBpYhQAQ0yM?si=a5w7D1X-W6ukj9v-"},
+        { question: "ひさかたの光のどけき春の日に", answer: "しづ心なく花の散るらむ\n[読み]ひさかたのひかりのどけきはるのひに　しづごころなくはなのちるらむ\n[歌人]紀友則" ,youtubeUrl:"https://youtu.be/WnAE-z8ttko?si=vLQ6fNPSC2HkFJ6c"},
+        { question: "誰をかも知る人にせむ高砂の", answer: "松も昔の友ならなくに\n[読み]たれをかもしるひとにせんたかさごの　まつもむかしのともならなくに\n[歌人]藤原興風" ,youtubeUrl:"https://youtu.be/jJzNNcGvCUU?si=95ucqAYgwAmO3xhU"},
+        { question: "人はいさ心も知らずふるさとは", answer: "花ぞ昔の香に匂ひける\n[読み]ひとはいさこころもしらずふるさとは　はなぞむかしのかににおひける\n[歌人]紀貫之",youtubeUrl:"https://youtu.be/V1NB6BS2XJ0?si=Y3S9NkyOxsjPp9Fz" },
+        { question: "夏の夜はまだ宵ながら明けぬるを", answer: "雲のいづこに月宿るらむ\n[読み]なつのよはまだよいながらあけぬるを　くものいづこにつきやどるらむ\n[歌人]清原深養父",youtubeUrl:"https://youtu.be/4z2Su5bAw2M?si=210dcjdBacK5Azf5" },
+        { question: "白露に風の吹きしく秋の野は", answer: "つらぬきとめぬ玉ぞ散りける\n[読み]しらつゆにかぜのふきしくあきののは　つらぬきとめぬたまぞちりける\n[歌人]文屋朝康" ,youtubeUrl:"https://youtu.be/5_kWtS31WBs?si=krAc1Jwfzu-eB8DM"},
+        { question: "忘らるる身をば思はず誓ひてし", answer: "人の命の惜しくもあるかな\n[読み]わすらるるみをばおもわずちかいでし　ひとのいのちのおしくもあるかな\n[歌人]右近" ,youtubeUrl:"https://youtu.be/HqMtnvYErqg?si=p3myZLQZjOsC45FO"},
+        { question: "浅茅生の小野の篠原忍ぶれど", answer: "あまりてなどか人の恋しき\n[読み]あさじうのおののしのはら　しのぶれど　あまりてなどかひとのこいしき\n[歌人]参議等",youtubeUrl:"https://youtu.be/EQ2xvi2AW80?si=TrDuKlqCQtWO7-v5" },
+        { question: "忍ぶれど色に出でにけりわが恋は", answer: "ものや思ふと人の問ふまで\n[読み]しのぶれどいろにいでにけりわがこいは　ものやおもふとひとのとふまで\n[歌人]平兼盛" ,youtubeUrl:"https://youtu.be/7cBTBr2Hua4?si=7qXAvGFS4NWGDTwG"},
+        { question: "恋すてふわが名はまだき立ちにけり", answer: "人知れずこそ思ひそめしか\n[読み]こいすてふわがなはまだきたちにけり　ひとしれずこそおもいそめしか\n[歌人]壬生忠見" ,youtubeUrl:"https://youtu.be/otOfqNNwTW8?si=paIpg8J40GdAUHvS"},
+        { question: "契りきなかたみに袖をしぼりつつ", answer: "末の松山波越さじとは\n[読み]ちぎりきなかたみにそでをしぼりつつ　すえのまつやまなみこさじとは\n[歌人]清原元輔" ,youtubeUrl:"https://youtu.be/ZRsBTneI6uA?si=RnSLnUMXmtF--p17"},
+        { question: "逢ひ見てののちの心にくらぶれば", answer: "昔はものを思はざりけり\n[読み]あいみてののちのこころにくらべれば　むかしはものを　おもわざりけり\n[歌人]権中納言敦忠" ,youtubeUrl:"https://youtu.be/HmbiCstuCho?si=VC2fMr05qDjUWiQu"},
+        { question: "逢ふことの絶えてしなくはなかなかに", answer: "人をも身をも恨みざらまし\n[読み]おうことのたえてしなくはなかなかに　ひとをもみをも　うらみざらまし\n[歌人]中納言朝忠" ,youtubeUrl:"https://youtu.be/Vr8FfeW62og?si=WN01_rEfdVzg4dxg"},
+        { question: "あはれともいふべき人は思ほえで", answer: "身のいたずらになりぬべきかな\n[読み]あわいともいうべきひとはおもおえで　みのいたずらになりぬべきかな\n[歌人]謙徳公",youtubeUrl:"https://youtu.be/Yq4ckH1OPFQ?si=AjUrFMU4eJbJ0wtD" },
+        { question: "由良の門を渡る舟人かぢを絶え", answer: "ゆくへも知らぬ恋のみちかな\n[読み]ゆらのとをわたるふなびとかじをたえ　ゆくえもしらぬこいのみちかな\n[歌人]曾禰好忠" ,youtubeUrl:"https://youtu.be/O88I7VqLGwE?si=3q3SjCeck49cdegU"},
+        { question: "八重むぐら茂れる宿の寂しきに", answer: "人こそ見えね秋は来にけり\n[読み]やえむぐらしげれるやどのさびしきに　ひとこそみえねあきはきにけり\n[歌人]恵慶法師" ,youtubeUrl:"https://youtu.be/8OmH1e37fro?si=QCKNVwwZZ7DLeIxd"},
+        { question: "風をいたみ岩打つ波のおのれのみ", answer: "くだけてものを思ふころかな\n[読み]かぜをいたみいわうつなみおのれのみ　くだけてものを　おもうころかな\n[歌人]源重之",youtubeUrl:"https://youtu.be/TyML3iHaucQ?si=o1Wq82sI6VidiLC6" },
+        { question: "御垣守衛士のたく火の夜は燃え", answer: "昼は消えつつものをこそ思へ\n[読み]みかきもりえじのたくひのよはもえ　ひるはきえつつものをこそおもえ\n[歌人]大中臣能宣朝臣" ,youtubeUrl:"https://youtu.be/7J0_BlSNRnM?si=jX__zJqg9U74BkkY"},
+        { question: "君がため惜しからざりし命さへ", answer: "長くもがなと思ひけるかな\n[読み]きみがためおしからざりしいのちさえ　ながくもがなとおもいけるかな\n[歌人]藤原義孝",youtubeUrl:"https://youtu.be/JPN5sx8XLWo?si=m706GIStJ8BP0s5I" },
+        { question: "かくとだにえやは伊吹のさしも草", answer: "さしも知らじな燃ゆる思ひを\n[読み]かくとだにえやはいぶきのさしもぐさ　さしもしらじなもゆるおもいを\n[歌人]藤原実方朝臣" ,youtubeUrl:"https://youtu.be/AvQAYhKkeOA?si=zOXjRR6lwmnqiN6k"},
+        { question: "明けぬれば暮るるものとは知りながら", answer: "なほ恨めしき朝ぼらけかな\n[読み]あけぬればくるるものとはしりながら　なおうらめしきあさぼらけかな\n[歌人]藤原道信朝臣",youtubeUrl:"https://youtu.be/HyfwlwszmhI?si=YyCZjCpXHtU1Mdf5" },
+        { question: "嘆きつつひとり寝る夜の明くる間は", answer: "いかに久しきものとかは知る\n[読み]なげきつつひとりぬるよのあくるまは　いかにひさしきものとかはしる\n[歌人]右大将道綱母",youtubeUrl:"https://youtu.be/pSpgWX5aws0?si=NzYS1X6dYn8v0CVW" },
+        { question: "忘れじのゆく末まではかたければ", answer: "今日を限りの命ともがな\n[読み]わすれじのゆくすえまではかたければ　きょうをかぎりのいのちともがな\n[歌人]儀同三司母",youtubeUrl:"https://youtu.be/ZEL3C30LoZE?si=siczLKQ4Kc-YpdGL" },
+        { question: "滝の音は絶えて久しくなりぬれど", answer: "名こそ流れてなほ聞こえけれ\n[読み]たきのおとはたえてひさしくなりぬれど　なこそながれてなおきこえけれ\n[歌人]大納言公任",youtubeUrl:"https://youtu.be/ud_QhJpSs0M?si=CPv6KrQcgY5tW619" },
+        { question: "あらざらむこの世のほかの思ひ出に", answer: "いまひとたびの逢ふこともがな\n[読み]あらざらむこのよのほかのおもいでに　いまひとたびのあふこともがな\n[歌人]和泉式部",youtubeUrl:"https://youtu.be/32Ah85lUaho?si=pBZOp3uUadQy6DaC" },
+        { question: "めぐり逢ひて見しやそれとも分かぬ間に", answer: "雲隠れにし夜半の月かな\n[読み]めぐりあいてみしやそれともわかぬまに　くもがくれにしよわのつきかな\n[歌人]紫式部",youtubeUrl:"https://youtu.be/v1N2jSG9II4?si=a_5gSURVPUjj2Ecs" },
+        { question: "有馬山猪名のささ原風吹けば", answer: "いでそよ人を忘れやはする\n[読み]ありまやまゐなのささはらかぜふけば　いでそよひとをわすれやはする\n[歌人]大弐三位",youtubeUrl:"https://youtu.be/3qbaaqIzo3U?si=ps5dJjdpmxdQ0Z9k" },
+        { question: "やすらはで寝なましものをさ夜更けて", answer: "かたぶくまでの月を見しかな\n[読み]やすらわでねなましものをさよふけて　かたぶくまでのつきをみしかな\n[歌人]赤染衛門",youtubeUrl:"https://youtu.be/OdZ26XK4xqs?si=eINc1JqSnaFSCUSm" },
+        { question: "大江山いく野の道の遠ければ", answer: "まだふみも見ず天の橋立\n[読み]おおえやまいくののみちのとおいければ　まだふみもみずあまのはしだて\n[歌人]小式部内侍",youtubeUrl:"https://youtu.be/NXEVSQLyzu0?si=cJlqyMMH3aaItIC7" },
         { question: "いにしへの奈良の都の八重桜", answer: "けふ九重に匂ひぬるかな\n[読み]いにしえのならのみやこのやえざくら　きょうここのえににおいぬるかな\n[歌人]伊勢大輔" },
         { question: "夜をこめて鳥のそら音ははかるとも", answer: "よに逢坂の関は許さじ\n[読み]よをこめてとりのそらねははかるとも　よにあうさかのせきはゆるさじ\n[歌人]清少納言" },
         { question: "今はただ思ひ絶えなむとばかりを", answer: "人づてならでいふよしもがな\n[読み]いまはただおもいたえなんとばかりを　ひとづてならでいふよしもがな\n[歌人]左京大夫道雅" },
@@ -480,6 +597,45 @@ right: 0;
             timeout = setTimeout(() => func.apply(context, args), delay);
         };
     }
+
+     // お知らせ機能のJavaScript
+        const announcementContent = document.getElementById('announcementContent');
+        const newTag = document.getElementById('newTag');
+
+        // お知らせの内容と更新日時を保存する関数
+        function updateAnnouncement() {
+            localStorage.setItem('announcementContent', announcementContent.innerHTML);
+            localStorage.setItem('lastAnnouncementUpdate', new Date().getTime()); // 現在のタイムスタンプを保存
+            newTag.style.display = 'inline'; // 更新したらNEWタグを表示
+        }
+
+        // ページロード時にお知らせを読み込む関数
+        function loadAnnouncement() {
+            const savedContent = localStorage.getItem('announcementContent');
+            const lastUpdate = localStorage.getItem('lastAnnouncementUpdate');
+
+            if (savedContent) {
+                announcementContent.innerHTML = savedContent;
+            } else {
+                announcementContent.innerHTML = 'ここに最新のお知らせを記載してください。クリックして編集できます。';
+            }
+
+            if (lastUpdate) {
+                const currentTime = new Date().getTime();
+                const updateTime = parseInt(lastUpdate, 10);
+                const twentyFourHours = 24 * 60 * 60 * 1000; // 24時間ミリ秒
+
+                // 24時間以内に更新された場合、NEWタグを表示
+                if (currentTime - updateTime < twentyFourHours) {
+                    newTag.style.display = 'inline';
+                } else {
+                    newTag.style.display = 'none'; // 24時間以上経過していたら非表示
+                }
+            } else {
+                newTag.style.display = 'none'; // 更新日時がなければ非表示
+            }
+        }
+
 
     function openNav() {
         sidebar.classList.add('active');

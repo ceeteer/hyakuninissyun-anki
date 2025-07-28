@@ -19,6 +19,43 @@
             padding-top: 80px; /* ヘッダーの高さに合わせて調整されます */
             overflow-x: hidden; /* 水平方向のスクロールバーを非表示にする */
         }
+.svg-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-grow: 1;
+}
+.svg-title svg {
+  height: 40px; /* ← 高さを抑えめに */
+  width: auto;
+}
+
+.svg-title svg text {
+  font-size: 80px;
+  fill: url(#gradient); /* グラデーションで塗る */
+  stroke: black;
+  stroke-width: 1px;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawText 3s ease forwards, fadeInFill 3s ease-in-out 1.5s forwards;
+}
+
+@keyframes drawText {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeInFill {
+  from {
+    fill: transparent;
+  }
+  to {
+    fill: #333;
+  }
+}
+
 
 .hero-left, .hero-right {
     position: fixed; /* ヘッダーとフッターの間で固定 */
@@ -518,10 +555,16 @@ right: 0;
     <div class="hero-left"></div>
     <div class="hero-right"></div>
     <header>
-        <button class="open-sidebar-btn" aria-label="メニューを開く" onclick="openNav()">
-            &#9776; </button>
-        <h1><img src="images/karuta.png" alt="カルタのアイコン" class="header-icon"> 百人一瞬暗記</h1>
-        <div class="header-right-spacer"></div>
+        <button class="open-sidebar-btn" onclick="openSidebar()">☰</button>
+  <h1 class="svg-title">
+    <img src="images/karuta.png" alt="カルタのアイコン" class="header-icon">
+    <svg viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">
+        百人一瞬暗記
+      </text>
+    </svg>
+  </h1>
+  <div class="header-right-spacer"></div>
         <div class="header-right-spacer"></div>
         <a href="https://www.karuta.or.jp/
 " class="karuta-link-box">競技かるたへ興味のある方はこちらから</a>
