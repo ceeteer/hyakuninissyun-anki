@@ -549,6 +549,73 @@ right: 0;
             color: white;
             font-size: 0.9rem;
         }
+        /* --- お知らせエリアのスタイル (追加) --- */
+        .announcement-area {
+            position: fixed;
+            top: 192px;
+            left: auto; /* ルール解説動画リンクボックスの下に配置 */
+            right: -10px;
+            
+            width: 280px; /* リンクボックスと同じ幅 */
+            z-index: 998;
+            padding: 0 10px 10px 10px; /* 上は0にして、下にパディング */
+            
+    
+        }
+
+        .announcement-outer-box {
+            border: 4px solid #4CAF50; /* 太い緑の線 */
+            border-radius: 8px;
+            padding: 5px; /* 内側の余白 */
+            background-color: #f9f9f9; /* 背景色 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .announcement-title-box {
+            border: 2px solid #90EE90; /* 中のお知らせ文字を囲む線 */
+            background-color: #e0ffe0; /* 薄い緑の背景 */
+            color: #333;
+            padding: 5px 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px; /* お知らせ内容との間隔 */
+            border-radius: 5px;
+            position: relative; /* NEWタグの配置用 */
+        }
+
+        .announcement-content {
+            font-size: 0.95em;
+            line-height: 1.5;
+            padding: 5px;
+            border: 1px dashed #ccc; /* 編集可能であることを示す点線 */
+            min-height: 50px; /* 最小の高さ */
+            background-color: white;
+            border-radius: 5px;
+            overflow-y: auto; /* 内容が多い場合にスクロール */
+            max-height: 150px; /* 最大の高さ */
+            text-align: left; /* テキストを左寄せ */
+        }
+
+        .announcement-content:focus {
+            outline: none; /* フォーカス時のアウトラインを削除 */
+            border-color: #4CAF50; /* フォーカス時に色を変える */
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        .new-tag {
+            background-color: #ff5722; /* オレンジ系のNEWタグ */
+            color: white;
+            font-size: 0.7em;
+            padding: 2px 6px;
+            border-radius: 3px;
+            position: absolute;
+            top: -8px; /* タイトルボックスの上に少しはみ出す */
+            right: -8px; /* 右上に配置 */
+            transform: rotate(10deg); /* 少し斜めにする */
+            font-weight: bold;
+            display: none; /* 初期は非表示 */
+        }
     </style>
 </head>
 <body>
@@ -571,6 +638,16 @@ right: 0;
 <a href="https://youtu.be/uL_GVMQo_-Y?si=u-UV2HNQE3WzWG1Q/" class="rulu-link-box">ルール解説動画</a>
                                                    
     </header>
+    <div class="announcement-area">
+   <div class="announcement-outer-box">
+       <div class="announcement-title-box">
+           <h3>お知らせ<span id="newTag" class="new-tag">NEW</span></h3>
+       </div>
+       <p id="announcementContent" class="announcement-content">
+        ・部分的に修正中です！
+         </p>
+   </div>
+</div>
 
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>

@@ -16,11 +16,10 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            padding-top: 80px;
+            padding-top: 0px;
             overflow-x: hidden;
         }
-
-.svg-title {
+       .svg-title {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,6 +55,7 @@
     fill: #333;
   }
 }
+  
 
         .hero-left, .hero-right {
     position: fixed; /* ヘッダーとフッターの間で固定 */
@@ -144,7 +144,7 @@ right: 0;
 
         header h1 {
             margin: 0;
-            font-size: 1.8rem;
+            font-size: 10rem;
             font-family: 'Noto Serif JP', serif;
             flex-grow: 1;
             text-align: center;
@@ -168,23 +168,7 @@ right: 0;
   margin-right: 10px;
 }
 
-.svg-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
 
-.svg-title svg text {
-  font-size: 30px;
-  fill: #333;
-  animation: fadeInText 2s ease-in-out forwards;
-}
-
-@keyframes fadeInText {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
         header .header-right-spacer {
             width: 48px;
@@ -282,7 +266,7 @@ right: 0;
         }
 
         .weak-poems-list {
-            text-align: left;
+            text-align: center;
             margin-top: 1rem;
         }
 
@@ -300,20 +284,44 @@ right: 0;
             line-height: 1.6;
         }
 
-        .weak-poem-item button {
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 8px;
-            background: #dc3545;
-            color: white;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
+#clearWeakPoemsButton {
+    background-color: #90EE90; /* 薄緑色 (LightGreen) */
+    color: #333; /* アイコンと文字の色を黒っぽく */
+    border: none; /* 枠線なし */
+    border-radius: 8px; /* 角丸 */
+    padding: 10px 20px; /* 上下10px、左右20pxの余白でボタンの長さを調整 */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    
+    /* === 以下のflexbox関連はアイコンとテキストの配置用 === */
+    display: flex; /* アイコンとテキストを横並びにする */
+    justify-content: center; /* 水平方向の中央揃え */
+    align-items: center; /* 垂直方向の中央揃え */
+    gap: 8px; /* テキストとアイコンの間に8pxの隙間を作る */
+    
+    /* === ここを修正/削除 === */
+    /* width: 60px; */ /* これを削除 */
+    /* height: 60px; */ /* これを削除 */
+    
+    margin: 1.5rem auto; /* 上下のマージンは1.5rem、左右は自動で中央寄せ */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* ホバー時のアニメーション */
+}
 
-        .weak-poem-item button:hover {
-            background: #c82333;
-        }
+/* ボタン内のアイコンのサイズを調整する */
+#clearWeakPoemsButton i {
+    font-size: 1.2em; /* アイコンのサイズ（ボタン全体のfont-sizeに対する比率） */
+}
+
+/* 必要であれば、ボタン内のテキストのスタイルも調整 */
+#clearWeakPoemsButton span {
+    font-size: 1em; /* テキストのサイズ */
+    white-space: nowrap; /* テキストが折り返さないように */
+}
+
+
+#clearWeakPoemsButton:hover {
+    background-color: #7CFC00; /* ホバー時に少し濃い緑に (LawnGreen) */
+    transform: scale(1.05); /* ホバー時に少し拡大 */
+}
 
         .no-poems {
             font-size: 1.2rem;
@@ -338,7 +346,7 @@ right: 0;
         <button class="open-sidebar-btn" onclick="openSidebar()">☰</button>
   <h1 class="svg-title">
     <img src="images/karuta.png" alt="カルタのアイコン" class="header-icon">
-    <svg viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <svg viewBox="0 0 700 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
       <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">
         百人一瞬暗記
       </text>
@@ -366,7 +374,7 @@ right: 0;
 
     <div id="weakPoemsSection" class="content-section">
         <h2>苦手句リスト</h2>
-        <p>間違えた句がここに表示されます。</p>
+        <p></p>
         <div id="weakPoemsList" class="weak-poems-list"></div>
         <button id="clearWeakPoemsButton" class="quiz-button" style="margin-top: 1.5rem;">リストをクリア</button>
     </div>
