@@ -350,6 +350,29 @@ right: 0;
             background-color: #777; /* ホバー時の背景色 */
         }
 
+        /* --- ページ下部へスクロールボタンのスタイル (新しく追加) --- */
+#scrollToBottomBtn {
+    display: none; /* 初期状態では非表示 */
+    position: fixed; /* 画面に固定 */
+    bottom: 20px; /* 上へ戻るボタンより上に配置 (20px + 50px=70px, ボタンの高さ約40pxとマージンを考慮) */
+    right: 60px; /* 右からの距離 */
+    z-index: 99; /* 他の要素より手前に表示 */
+    border: none; /* 枠線なし */
+    outline: none; /* フォーカス時のアウトラインなし */
+    background-color: #555; /* 背景色 */
+    color: white; /* 文字色 */
+    cursor: pointer; /* カーソルをポインターに */
+    padding: 15px; /* 内側の余白 */
+    border-radius: 50%; /* 丸い形 */
+    font-size: 18px; /* 文字サイズ */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 影 */
+    transition: background-color 0.3s ease; /* ホバー時のトランジション */
+}
+
+#scrollToBottomBtn:hover {
+    background-color: #777; /* ホバー時の背景色 */
+}
+
         /* --- お知らせエリアのスタイル (追加) --- */
         .announcement-area {
             position: fixed;
@@ -376,7 +399,7 @@ right: 0;
             border: 2px solid #90EE90; /* 中のお知らせ文字を囲む線 */
             background-color: #e0ffe0; /* 薄い緑の背景 */
             color: #333;
-            padding: 5px 10px;
+            padding: 0.1px 10px;
             text-align: center;
             font-weight: bold;
             font-size: 1.1em;
@@ -453,6 +476,7 @@ right: 0;
             <li><a href="weak-poems.html" onclick="closeNav()">苦手句リスト</a></li>
             <li><a href="about.html" onclick="closeNav()">このアプリについて</a></li>
             <li><a href="privacy.html" onclick="closeNav()">プライバシーポリシー</a></li>
+            <li><a href="mail.html" onclick="closeNav()">お問い合わせ</a></li>
         </ul>
     </div>
 
@@ -465,6 +489,7 @@ right: 0;
     </div>
 
     <button id="scrollToTopBtn">↑</button>
+    <button id="scrollToBottomBtn"↓></button>
 
     <footer>
         &copy; <span id="currentYear"></span> hyakuninnissyunanki
@@ -541,16 +566,16 @@ right: 0;
         { question: "心にもあらで憂き世に長らへば", answer: "恋しかるべき夜半の月かな\n[読み]こころにもあらでうきよにながらえば　こいしかるべきよわのつきかな\n[歌人]三条院" ,youtubeUrl:"https://youtu.be/txHPXHhQoog?si=vOweG41vtB16h4tL"},
         { question: "嵐吹く三室の山のもみぢ葉は", answer: "竜田の川の錦なりけり\n[読み]あらしふくみむろのやまのもみじばは　たつたのかわのにしきなりけり\n[歌人]能因法師" ,youtubeUrl:"https://youtu.be/onYXZFwtjaI?si=L151KSPp4QhRnktn"},
         { question: "寂しさに宿を立ち出でてながむれば", answer: "いづくも同じ秋の夕暮\n[読み]さびしさにやどをたちいでてながむれば　いづくもおなじあきのゆうぐれ\n[歌人]良暹法師" ,youtubeUrl:"https://youtu.be/o4JLqWgDpfo?si=XvIbmglYY_Eho1J_"},
-        { question: "夕されば門田の稲葉おとづれて", answer: "蘆のまろ屋に秋風ぞ吹く\n[読み]ゆうさればかどたのいなばおとずれて　あしのまろやにあきかぜぞふく\n[歌人]大納言経信" },
-        { question: "音に聞く高師の浜のあだ波は", answer: "かけじや袖のぬれもこそすれ\n[読み]おとにきくたかしのはまのあだなみは　かけじやそでのぬれもこそすれ\n[歌人]祐子内親王家紀伊" },
-        { question: "高砂の尾の上の桜咲きにけり", answer: "外山のかすみ立たずもあらなむ\n[読み]たかさごのおのえのさくらさきにけり　とやまのかすみたたずもあらなん\n[歌人]前権中納言匡房（大江匡房）" },
-        { question: "憂かりける人を初瀬の山おろしよ", answer: "激しかれとは祈らぬものを\n[読み>うかりけるひとをはつせのやまおろしよ　はげしかれとはいのらぬものを\n[歌人]源俊頼朝臣" },
-        { question: "契りおきしさせもが露を命にて", answer: "あはれ今年の秋もいぬめり\n[読み]ちぎりおきしさしものがつゆをいのちにて　あはれことしのあきもいぬめり\n[歌人]藤原基俊" },
-        { question: "わたの原漕ぎ出でて見ればひさかたの", answer: "雲居にまがふ沖つ白波\n[読み>わたのはらこぎいでてみればひさかたの　くもいにまがふおきつしらなみ\n[歌人]法性寺入道前関白太政大臣（藤原忠通）" },
-        { question: "瀬をはやみ岩にせかるる滝川の", answer: "われても末に逢はむとぞ思ふ\n[読み>せをはやみいわにせかるるたきがわの　われてもすえにあわんとぞおもう\n[歌人]崇徳院" },
-        { question: "淡路島通ふ千鳥の鳴く声に", answer: "いく夜寝覚めぬ須磨の関守\n[読み>あわじしまかようちどりのなくこえに　いくよねざめぬすまのせきもり\n[歌人]源兼昌" },
-        { question: "秋風にたなびく雲のたえ間より", answer: "漏れ出づる月の影のさやけさ\n[読み>あきかぜにたなびくくものたえまより　もれいたるつきのかげのさやけさ\n[歌人]左京大夫顕輔" },
-        { question: "ながからむ心も知らず黒髪の", answer: "乱れてけさはものをこそ思へ\n[読み>ながからむこころもしらずくろかみの　みだれてけさはものをこそおもえ\n[歌人]待賢門院堀河" },
+        { question: "夕されば門田の稲葉おとづれて", answer: "蘆のまろ屋に秋風ぞ吹く\n[読み]ゆうさればかどたのいなばおとずれて　あしのまろやにあきかぜぞふく\n[歌人]大納言経信" ,youtubeUrl:"https://youtu.be/Bdq2MUX_RNU?si=p5D2-kb1Q4c3F__X"},
+        { question: "音に聞く高師の浜のあだ波は", answer: "かけじや袖のぬれもこそすれ\n[読み]おとにきくたかしのはまのあだなみは　かけじやそでのぬれもこそすれ\n[歌人]祐子内親王家紀伊",youtubeUrl:"https://youtu.be/ehWwdxxdxw0?si=YY20g_aT4kOF6v4p" },
+        { question: "高砂の尾の上の桜咲きにけり", answer: "外山のかすみ立たずもあらなむ\n[読み]たかさごのおのえのさくらさきにけり　とやまのかすみたたずもあらなん\n[歌人]前権中納言匡房（大江匡房）",youtubeUrl:"https://youtu.be/_2Ztm4zWDyM?si=0PsAq7DEvVj7qLw_" },
+        { question: "憂かりける人を初瀬の山おろしよ", answer: "激しかれとは祈らぬものを\n[読み>うかりけるひとをはつせのやまおろしよ　はげしかれとはいのらぬものを\n[歌人]源俊頼朝臣" ,youtubeUrl:"https://youtu.be/lYeAL1d9T0c?si=GsLrSsG0w0a9BvoG"},
+        { question: "契りおきしさせもが露を命にて", answer: "あはれ今年の秋もいぬめり\n[読み]ちぎりおきしさしものがつゆをいのちにて　あはれことしのあきもいぬめり\n[歌人]藤原基俊",youtubeUrl:"https://youtu.be/pRAb2XA25jY?si=iGCb3MKji4F2ewIo" },
+        { question: "わたの原漕ぎ出でて見ればひさかたの", answer: "雲居にまがふ沖つ白波\n[読み>わたのはらこぎいでてみればひさかたの　くもいにまがふおきつしらなみ\n[歌人]法性寺入道前関白太政大臣（藤原忠通）",youtubeUrl:"https://youtu.be/9j_rKWfgUSU?si=bwrXZJ_lWUueraoA" },
+        { question: "瀬をはやみ岩にせかるる滝川の", answer: "われても末に逢はむとぞ思ふ\n[読み>せをはやみいわにせかるるたきがわの　われてもすえにあわんとぞおもう\n[歌人]崇徳院",youtubeUrl:"https://youtu.be/l4bFiKS_j4s?si=Kud4mz-hZ6vZLN5F" },
+        { question: "淡路島通ふ千鳥の鳴く声に", answer: "いく夜寝覚めぬ須磨の関守\n[読み>あわじしまかようちどりのなくこえに　いくよねざめぬすまのせきもり\n[歌人]源兼昌",youtubeUrl:"https://youtu.be/TwTB61BHb0Q?si=EEr-88xG-_chlhSA" },
+        { question: "秋風にたなびく雲のたえ間より", answer: "漏れ出づる月の影のさやけさ\n[読み>あきかぜにたなびくくものたえまより　もれいたるつきのかげのさやけさ\n[歌人]左京大夫顕輔" ,youtubeUrl:"https://youtu.be/1RjFGmSqSTA?si=wbPqskTb-jBc1Mpg"},
+        { question: "ながからむ心も知らず黒髪の", answer: "乱れてけさはものをこそ思へ\n[読み>ながからむこころもしらずくろかみの　みだれてけさはものをこそおもえ\n[歌人]待賢門院堀河",youtubeUrl:"https://youtu.be/-PGu0YN9AdA?si=HwW3bBe-WrIMnFQm" },
         { question: "ほととぎす鳴きつる方をながむれば", answer: "ただ有明の月ぞ残れる\n[読み>ほととぎすなきつるかたをながむれば　ただありあけのつきぞのこれる\n[歌人]後徳大寺左大臣" },
         { question: "思ひわびさても命はあるものを", answer: "憂きに堪へぬは涙なりけり\n[読み>おもいなびさてもいのちはあるものを　うきにたえぬはなみだなりけり\n[歌人]道因法師" },
         { question: "世の中よ道こそなけれ思ひ入る", answer: "山の奥にも鹿ぞ鳴くなる\n[読み>よのなかよみちこそなけれおもいいる　やまのおくにもしかぞなくなる\n[歌人]皇太后宮大夫俊成" },
@@ -759,6 +784,46 @@ right: 0;
             behavior: 'smooth'
         });
     });
+
+    // --- ページ下部へスクロールボタンのJavaScript (新しく追加) ---
+const scrollToBottomBtn = document.createElement('button');
+scrollToBottomBtn.id = 'scrollToBottomBtn';
+scrollToBottomBtn.textContent = '↓';
+document.body.appendChild(scrollToBottomBtn);
+
+// ページスクロールイベントでボタンの表示/非表示を切り替える
+window.addEventListener('scroll', function() {
+    // 上に戻るボタンの表示/非表示
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        document.getElementById("scrollToTopBtn").style.display = "block";
+    } else {
+        document.getElementById("scrollToTopBtn").style.display = "none";
+    }
+
+    // 下へスクロールボタンの表示/非表示
+    // ページ下部に近づいたら非表示にする
+    const scrollHeight = document.documentElement.scrollHeight; // ドキュメント全体の高さ
+    const scrollTop = document.documentElement.scrollTop;     // スクロールされている高さ
+    const clientHeight = document.documentElement.clientHeight; // 表示されているビューポートの高さ
+
+    // 下から一定の距離（例: 200px）以内になったら非表示にする
+    if (scrollHeight - (scrollTop + clientHeight) < 200) {
+        scrollToBottomBtn.style.display = "none";
+    } else if (scrollTop === 0) { // ページの一番上なら非表示
+        scrollToBottomBtn.style.display = "none";
+    }
+    else {
+        scrollToBottomBtn.style.display = "block";
+    }
+});
+
+// 下へスクロールボタンクリック時の処理
+scrollToBottomBtn.addEventListener('click', function() {
+    window.scrollTo({
+        top: document.documentElement.scrollHeight, // ページ最下部へ
+        behavior: 'smooth' // スムーズスクロール
+    });
+});
 </script>
 </body>
 </html>
