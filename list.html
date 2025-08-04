@@ -5,6 +5,42 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>百人一瞬暗記 - 句一覧</title>
     <style>
+         html {
+            font-size: 16px; /* デフォルトの基本フォントサイズ */
+        }
+        
+        /* --- 文字サイズ切替用のクラス (html要素に適用) --- */
+        html.font-size-small {
+            font-size: 14px;
+        }
+        html.font-size-medium {
+            font-size: 16px;
+        }
+        html.font-size-large {
+            font-size: 18px;
+        }
+        .font-size-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .font-size-controls button {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        
+        .font-size-controls button.active {
+            background-color: white;
+            color: #90EE90;
+        }
         body {
             font-family: sans-serif;
             background: #f4f4f4;
@@ -17,6 +53,7 @@
             box-sizing: border-box;
             padding-top: 80px; /* ヘッダーの高さに合わせて調整されます（JSで動的に計算） */
             overflow-x: hidden; /* サイドバーが開いたときに横スクロールバーが表示されるのを防ぐ */
+            transition: font-size 0.3s ease; /* 文字サイズ変更時に滑らかに変化させる */
         }
 
 
@@ -451,6 +488,11 @@ right: 0;
                 <img src="images/karuta.png" alt="" class="header-icon">
                 百人一瞬暗記
             </h1>
+             <div class="font-size-controls">
+            <button id="font-size-small-btn">小</button>
+            <button id="font-size-medium-btn" class="active">中</button>
+            <button id="font-size-large-btn">大</button>
+        </div>
   <div class="header-right-spacer"></div>
          <a href="https://www.karuta.or.jp/
 " class="karuta-link-box">競技かるたへ興味のある方はこちらから</a>
@@ -477,6 +519,7 @@ right: 0;
             <li><a href="about.html" onclick="closeNav()">このアプリについて</a></li>
             <li><a href="privacy.html" onclick="closeNav()">プライバシーポリシー</a></li>
             <li><a href="mail.html" onclick="closeNav()">お問い合わせ</a></li>
+            <li><a href="keep.html" onclick="closeNav()">管理者情報</a></li>
         </ul>
     </div>
 
@@ -495,6 +538,37 @@ right: 0;
         &copy; <span id="currentYear"></span> hyakuninnissyunanki
     </footer>
 <script>
+    // --- 文字サイズ変更機能 ---
+        // html要素を取得
+        const html = document.documentElement;
+        const smallBtn = document.getElementById('font-size-small-btn');
+        const mediumBtn = document.getElementById('font-size-medium-btn');
+        const largeBtn = document.getElementById('font-size-large-btn');
+        const sizeButtons = [smallBtn, mediumBtn, largeBtn];
+        
+        // 文字サイズを変更する関数
+        function changeFontSize(size) {
+            // html要素から既存のフォントサイズクラスをすべて削除
+            html.classList.remove('font-size-small', 'font-size-medium', 'font-size-large');
+            // 新しいフォントサイズクラスを追加
+            html.classList.add(`font-size-${size}`);
+            
+            // 全てのボタンからactiveクラスを削除
+            sizeButtons.forEach(btn => btn.classList.remove('active'));
+            // 選択されたボタンにactiveクラスを追加
+            document.getElementById(`font-size-${size}-btn`).classList.add('active');
+        }
+        
+        // 各ボタンにイベントリスナーを追加
+        smallBtn.addEventListener('click', () => changeFontSize('small'));
+        mediumBtn.addEventListener('click', () => changeFontSize('medium'));
+        largeBtn.addEventListener('click', () => changeFontSize('large'));
+        
+        // 初期設定：中サイズを適用
+        changeFontSize('medium');
+        
+        // 現在の年を取得して表示するJavaScript
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
    const poems = [
         { question: "秋の田のかりほの庵の苫をあらみ", answer: "わが衣手は露にぬれつつ\n[読み]あきのたのかりほのいほのとまをあらみ　わがころもてはつゆにぬれつつ\n[歌人]天智天皇", youtubeUrl: "https://youtu.be/CmSzyBS49JQ?si=Ubb1W41nnV3EsyFUこれ" }, // 例として追加済みのyoutubeUrl
         { question: "春過ぎて夏来にけらし白妙の", answer: "衣干すてふ天の香具山\n[読み]はるすぎてなつきにけらししろたえの　ころもほすてふあまのかぐやま\n[歌人]持統天皇", youtubeUrl: "https://youtu.be/q-74lm5EH7E?si=WZCleY6yIIQAJTZ2" }, // 例: 2句目にも追加
@@ -576,26 +650,26 @@ right: 0;
         { question: "淡路島通ふ千鳥の鳴く声に", answer: "いく夜寝覚めぬ須磨の関守\n[読み>あわじしまかようちどりのなくこえに　いくよねざめぬすまのせきもり\n[歌人]源兼昌",youtubeUrl:"https://youtu.be/TwTB61BHb0Q?si=EEr-88xG-_chlhSA" },
         { question: "秋風にたなびく雲のたえ間より", answer: "漏れ出づる月の影のさやけさ\n[読み>あきかぜにたなびくくものたえまより　もれいたるつきのかげのさやけさ\n[歌人]左京大夫顕輔" ,youtubeUrl:"https://youtu.be/1RjFGmSqSTA?si=wbPqskTb-jBc1Mpg"},
         { question: "ながからむ心も知らず黒髪の", answer: "乱れてけさはものをこそ思へ\n[読み>ながからむこころもしらずくろかみの　みだれてけさはものをこそおもえ\n[歌人]待賢門院堀河",youtubeUrl:"https://youtu.be/-PGu0YN9AdA?si=HwW3bBe-WrIMnFQm" },
-        { question: "ほととぎす鳴きつる方をながむれば", answer: "ただ有明の月ぞ残れる\n[読み>ほととぎすなきつるかたをながむれば　ただありあけのつきぞのこれる\n[歌人]後徳大寺左大臣" },
-        { question: "思ひわびさても命はあるものを", answer: "憂きに堪へぬは涙なりけり\n[読み>おもいなびさてもいのちはあるものを　うきにたえぬはなみだなりけり\n[歌人]道因法師" },
-        { question: "世の中よ道こそなけれ思ひ入る", answer: "山の奥にも鹿ぞ鳴くなる\n[読み>よのなかよみちこそなけれおもいいる　やまのおくにもしかぞなくなる\n[歌人]皇太后宮大夫俊成" },
-        { question: "長らへばまたこのごろやしのばれむ", answer: "憂しと見し世ぞ今は恋しき\n[読み>ながらえばまたこのごろやしのばれん　うしとみしよぞいまはこいしき\n[歌人]藤原清輔朝臣" },
-        { question: "夜もすがらもの思ふころは明けやらで", answer: "ねやのひまさえつれなかりけり\n[読み>よもすがらものおもうころはあけやらで　ねやのひまさえつれなかりけり\n[歌人]俊恵法師" },
-        { question: "嘆けとて月やはものを思はする", answer: "かこちがほなるわが涙かな\n[読み>なげけとてつきやはものをおもわする　かこちがほなるわがなみだかな\n[歌人]西行法師" },
-        { question: "村雨の露もまだ干ぬまきの葉に", answer: "霧立ちのぼる秋の夕暮\n[読み>むらさめのつゆもまだひぬまきのはに　きりたちのぼるあきのゆうぐれ\n[歌人]寂蓮法師" },
-        { question: "難波江の蘆のかりねのひとよゆゑ", answer: "身を尽くしてや恋ひわたるべき\n[読み>なにはえのあしのかりねのひとよゆえ　みをつくしてやこいわたるべき\n[歌人]皇嘉門院別当" },
-        { question: "玉の緒よ絶えなば絶えねながらへば", answer: "忍ぶることの弱りもぞする\n[読み>たまのおよたえなばたえねながらへば　しのぶることのよわりもぞする\n[歌人]式子内親王" },
-        { question: "見せばやな雄島のあまの袖だにも", answer: "濡れにぞ濡れし色は変はらず\n[読み>みせばやなおじまのあまのそでだにも　ぬれにぞぬれしいろはかわらず\n[歌人]殷富門院大輔" },
-        { question: "きりぎりす鳴くや霜夜のさむしろに", answer: "衣かたしきひとりかも寝む\n[読み>きりぎりすなくやしもよのさむしろに　ころもかたしきひとりかもねむ\n[歌人]後京極摂政前太政大臣" },
-        { question: "わが袖は潮干に見えぬ沖の石の", answer: "人こそ知らねかわく間もなし\n[読み>わがそではしおひにみえぬおきのいしの　ひとこそしらねかわくまもなし\n[歌人]二条院讃岐" },
-        { question: "世の中は常にもがもな渚漕ぐ", answer: "あまの小舟の綱手かなしも\n[読み>よのなかはつねにもがもななぎさこぐ　あまのおぶねのつなでかなしも\n[歌人]鎌倉右大臣" },
-        { question: "み吉野の山の秋風さよ更けて", answer: "ふるさと寒く衣打つなり\n[読み>みよしののやまのあきかぜさよふけて　ふるさとさむくころもうつなり\n[歌人]参議雅経" },
-        { question: "おほけなく憂き世の民におほふかな", answer: "わが立つ杣に墨染の袖\n[読み>おおけなくうきよのたみにおおふかな　わがたつそまにすみぞめのそで\n[歌人]前大僧正慈円" },
-        { question: "花さそふ嵐の庭の雪ならで", answer: "ふりゆくものはわが身なりけり\n[読み>はなさそうあらしのにわのゆきならで　ふりゆくものはわがみなりけり\n[歌人]入道前太政大臣" },
-        { question: "来ぬ人をまつほの浦の夕なぎに", answer: "焼くや藻塩の身もこがれつつ\n[読み>こぬひとをまつほのうらのゆうなぎに　やくやもしおのみもこがれつつ\n[歌人]権中納言定家" },
-        { question: "風そよぐ楢の小川の夕暮は", answer: "御禊ぞ夏のしるしなりける\n[読み>かぜそよぐならのおがわのゆうぐれは　みそぎぞなつのしるしなりける\n[歌人]従二位家隆" },
-        { question: "人もをし人も恨めしあぢきなく", answer: "世を思ふゆゑにもの思ふ身は\n[読み>ひともをしひともうらめしあぢきなく　よをおもふゆえにものおもふみは\n[歌人]後鳥羽院" },
-        { question: "百敷や古き軒端のしのぶにも", answer: "なほ余りある昔なりけり\n[読み>ももしきやふるきのきばのしのぶにも　なほあまりあるむかしなりけり\n[歌人]順徳院" }
+        { question: "ほととぎす鳴きつる方をながむれば", answer: "ただ有明の月ぞ残れる\n[読み>ほととぎすなきつるかたをながむれば　ただありあけのつきぞのこれる\n[歌人]後徳大寺左大臣",youtubeUrl:"https://youtu.be/shnG2BpdHN4?si=UGRKFWyxc3ViT6jE" },
+        { question: "思ひわびさても命はあるものを", answer: "憂きに堪へぬは涙なりけり\n[読み>おもいなびさてもいのちはあるものを　うきにたえぬはなみだなりけり\n[歌人]道因法師" ,youtubeUrl:"https://youtu.be/0Qu-EVhvyBQ?si=BqA9-hXe5L5DYVE8"},
+        { question: "世の中よ道こそなけれ思ひ入る", answer: "山の奥にも鹿ぞ鳴くなる\n[読み>よのなかよみちこそなけれおもいいる　やまのおくにもしかぞなくなる\n[歌人]皇太后宮大夫俊成",youtubeUrl:"https://youtu.be/eeGoXU2wHWQ?si=G1lPMWIzVYPo6yFS" },
+        { question: "長らへばまたこのごろやしのばれむ", answer: "憂しと見し世ぞ今は恋しき\n[読み>ながらえばまたこのごろやしのばれん　うしとみしよぞいまはこいしき\n[歌人]藤原清輔朝臣" ,youtubeUrl:"https://youtu.be/PIU5ZDXFYp4?si=b07R5ze5ziXs034q"},
+        { question: "夜もすがらもの思ふころは明けやらで", answer: "ねやのひまさえつれなかりけり\n[読み>よもすがらものおもうころはあけやらで　ねやのひまさえつれなかりけり\n[歌人]俊恵法師",youtubeUrl:"https://youtu.be/J6dtd2hb6X4?si=ma3AbCGhA0JA7YU3" },
+        { question: "嘆けとて月やはものを思はする", answer: "かこちがほなるわが涙かな\n[読み>なげけとてつきやはものをおもわする　かこちがほなるわがなみだかな\n[歌人]西行法師",youtubeUrl:"https://youtu.be/MZvZ8CaLrOU?si=SIylpVEh-x_YmztB" },
+        { question: "村雨の露もまだ干ぬまきの葉に", answer: "霧立ちのぼる秋の夕暮\n[読み>むらさめのつゆもまだひぬまきのはに　きりたちのぼるあきのゆうぐれ\n[歌人]寂蓮法師",youtubeUrl:"https://youtu.be/7Mh9WXNV3Qk?si=iMjYy3hsKUEFI_F6" },
+        { question: "難波江の蘆のかりねのひとよゆゑ", answer: "身を尽くしてや恋ひわたるべき\n[読み>なにはえのあしのかりねのひとよゆえ　みをつくしてやこいわたるべき\n[歌人]皇嘉門院別当",youtubeUrl:"https://youtu.be/-nTFqqvf0uc?si=D0GiaFMn7dIBcHX5" },
+        { question: "玉の緒よ絶えなば絶えねながらへば", answer: "忍ぶることの弱りもぞする\n[読み>たまのおよたえなばたえねながらへば　しのぶることのよわりもぞする\n[歌人]式子内親王",youtubeUrl:"https://youtu.be/LJo9tgxIb3U?si=KFrlRlnboHYS1jAP" },
+        { question: "見せばやな雄島のあまの袖だにも", answer: "濡れにぞ濡れし色は変はらず\n[読み>みせばやなおじまのあまのそでだにも　ぬれにぞぬれしいろはかわらず\n[歌人]殷富門院大輔" ,youtubeUrl:"https://youtu.be/hNKeuArrvo0?si=XMVOHcgDySDjMKBM"},
+        { question: "きりぎりす鳴くや霜夜のさむしろに", answer: "衣かたしきひとりかも寝む\n[読み>きりぎりすなくやしもよのさむしろに　ころもかたしきひとりかもねむ\n[歌人]後京極摂政前太政大臣",youtubeUrl:"https://youtu.be/XEClAVGD8HQ?si=IM1KSE_czYgRIrzs" },
+        { question: "わが袖は潮干に見えぬ沖の石の", answer: "人こそ知らねかわく間もなし\n[読み>わがそではしおひにみえぬおきのいしの　ひとこそしらねかわくまもなし\n[歌人]二条院讃岐" ,youtubeUrl:"https://youtu.be/H5itWYLizP8?si=hGS5x_OxOEGAeWSf"},
+        { question: "世の中は常にもがもな渚漕ぐ", answer: "あまの小舟の綱手かなしも\n[読み>よのなかはつねにもがもななぎさこぐ　あまのおぶねのつなでかなしも\n[歌人]鎌倉右大臣",youtubeUrl:"https://youtu.be/hkZDOFVxxok?si=-pCdvoxHDRVCSEZm" },
+        { question: "み吉野の山の秋風さよ更けて", answer: "ふるさと寒く衣打つなり\n[読み>みよしののやまのあきかぜさよふけて　ふるさとさむくころもうつなり\n[歌人]参議雅経",youtubeUrl:"https://youtu.be/BNcct2IbKsI?si=lhh_rGCmXUlkBtky" },
+        { question: "おほけなく憂き世の民におほふかな", answer: "わが立つ杣に墨染の袖\n[読み>おおけなくうきよのたみにおおふかな　わがたつそまにすみぞめのそで\n[歌人]前大僧正慈円" ,youtubeUrl:"https://youtu.be/ZFUWiKpqdHg?si=nBiESVBroi2YnIag"},
+        { question: "花さそふ嵐の庭の雪ならで", answer: "ふりゆくものはわが身なりけり\n[読み>はなさそうあらしのにわのゆきならで　ふりゆくものはわがみなりけり\n[歌人]入道前太政大臣" ,youtubeUrl:"https://youtu.be/DpGQzDUbDIc?si=WIshEJ0okC9pgfWd"},
+        { question: "来ぬ人をまつほの浦の夕なぎに", answer: "焼くや藻塩の身もこがれつつ\n[読み>こぬひとをまつほのうらのゆうなぎに　やくやもしおのみもこがれつつ\n[歌人]権中納言定家" ,youtubeUrl:"https://youtu.be/TJ5eEEBOtFs?si=qgqEWR3dWCQrwPPb"},
+        { question: "風そよぐ楢の小川の夕暮は", answer: "御禊ぞ夏のしるしなりける\n[読み>かぜそよぐならのおがわのゆうぐれは　みそぎぞなつのしるしなりける\n[歌人]従二位家隆",youtubeUrl:"https://youtu.be/wFnv3D2fcmM?si=cmkLLMZDsVENSOlD" },
+        { question: "人もをし人も恨めしあぢきなく", answer: "世を思ふゆゑにもの思ふ身は\n[読み>ひともをしひともうらめしあぢきなく　よをおもふゆえにものおもふみは\n[歌人]後鳥羽院" ,youtubeUrl:"https://youtu.be/GQlVWZ9-NAM?si=0hgx9ezr-bj8xMQB"},
+        { question: "百敷や古き軒端のしのぶにも", answer: "なほ余りある昔なりけり\n[読み>ももしきやふるきのきばのしのぶにも　なほあまりあるむかしなりけり\n[歌人]順徳院" ,youtubeUrl:"https://youtu.be/b8dIIDgSgSU?si=-MCvL43FQhT9EBzu"}
     ];
 
     const poemListElement = document.getElementById("poemList"); // HTMLに <div id="poemList"> を追加してください

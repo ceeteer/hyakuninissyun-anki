@@ -5,6 +5,42 @@
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <title>プライバシーポリシー - 百人一瞬暗記</title>
         <style>
+              html {
+            font-size: 16px; /* デフォルトの基本フォントサイズ */
+        }
+        
+        /* --- 文字サイズ切替用のクラス (html要素に適用) --- */
+        html.font-size-small {
+            font-size: 14px;
+        }
+        html.font-size-medium {
+            font-size: 16px;
+        }
+        html.font-size-large {
+            font-size: 18px;
+        }
+               .font-size-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .font-size-controls button {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        
+        .font-size-controls button.active {
+            background-color: white;
+            color: #90EE90;
+        }
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* モダンなフォント */
                 background: #e9eef2; /* 少し明るい背景色 */
@@ -17,6 +53,7 @@
                 box-sizing: border-box;
                 padding-top: 80px; /* ヘッダーの高さに合わせて調整 */
                 overflow-x: hidden; /* 水平方向のスクロールバーを非表示にする */
+                transition: font-size 0.3s ease; /* 文字サイズ変更時に滑らかに変化させる */
             }
 
                            .hero-left, .hero-right {
@@ -237,6 +274,32 @@ right: 0;
             color: #7f8c8d; /* グレー */
         }
 
+        .slideshow-container {
+            position: absolute;
+            top:50%;
+            right: 0;
+            transform: translateY(-50%);
+            width:200px;
+            height: 300px;
+            overflow: hidden;
+            z-index: 10;
+
+        }
+        .slide {
+            position: absolute;
+            top: 0;
+            left:0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            object-fit: cover;
+        }
+
+        .slide:first-child{
+            opacity: 1;
+        }
+
         /* --- フッターのスタイル --- */
         footer {
             margin-top: auto;
@@ -259,6 +322,11 @@ right: 0;
                 <img src="images/karuta.png" alt="" class="header-icon">
                 百人一瞬暗記
             </h1>
+              <div class="font-size-controls">
+            <button id="font-size-small-btn">小</button>
+            <button id="font-size-medium-btn" class="active">中</button>
+            <button id="font-size-large-btn">大</button>
+        </div>
             <div class="header-right-spacer"></div>
         </header>
 
@@ -270,10 +338,20 @@ right: 0;
                 <li><a href="weak-poems.html" onclick="closeNav()">苦手句リスト</a></li>
                 <li><a href="about.html" onclick="closeNav()">このアプリについて</a></li>
                 <li><a href="privacy.html" onclick="closeNav()">プライバシーポリシー</a></li>
+                <li><a href="mail.html" onclick="closeNav()">お問い合わせ</a></li>
+                <li><a href="keep.html" onclick="closeNav()">管理者情報</a></li>
             </ul>
         </div>
 
         <div id="privacyContent" class="content-card">
+
+            <main>
+                <div class="slideshow-container">
+                    <img src="images/1.jpeg" class="slide" alt="スライド画像１">
+                     <img src="images/2.jpeg" class="slide" alt="スライド画像2">
+                      <img src="images/3.jpeg" class="slide" alt="スライド画像3">
+                </div>
+            </main>
             <h2>プライバシーポリシー</h2>
             <p>「百人一瞬暗記」アプリ（以下、「本アプリ」といいます）は、ユーザーの皆様のプライバシーを尊重し、個人情報の保護に最大限の注意を払っています。本プライバシーポリシーは、本アプリにおける個人情報の取り扱いについて説明するものです。</p>
 
@@ -320,6 +398,53 @@ right: 0;
         </div>
         
         <script>
+            document.addEventListener('DOMContentLoaded', ()=> {
+                const slides = document.querySelectorAll('.slide');
+                if (slides.length===0)return;
+
+                let currentIndex=0;
+
+                function nextSlide(){
+                    slides[currentIndex].style.opacity=0;
+                    currentIndex=(currentIndex+1)% slides.length;
+                    slides[currentIndex].style.opacity=1;
+                }
+
+                    setInterval(nextSlide,3000);
+                
+            });
+            // --- 文字サイズ変更機能 ---
+        // html要素を取得
+        const html = document.documentElement;
+        const smallBtn = document.getElementById('font-size-small-btn');
+        const mediumBtn = document.getElementById('font-size-medium-btn');
+        const largeBtn = document.getElementById('font-size-large-btn');
+        const sizeButtons = [smallBtn, mediumBtn, largeBtn];
+        
+        // 文字サイズを変更する関数
+        function changeFontSize(size) {
+            // html要素から既存のフォントサイズクラスをすべて削除
+            html.classList.remove('font-size-small', 'font-size-medium', 'font-size-large');
+            // 新しいフォントサイズクラスを追加
+            html.classList.add(`font-size-${size}`);
+            
+            // 全てのボタンからactiveクラスを削除
+            sizeButtons.forEach(btn => btn.classList.remove('active'));
+            // 選択されたボタンにactiveクラスを追加
+            document.getElementById(`font-size-${size}-btn`).classList.add('active');
+        }
+        
+        // 各ボタンにイベントリスナーを追加
+        smallBtn.addEventListener('click', () => changeFontSize('small'));
+        mediumBtn.addEventListener('click', () => changeFontSize('medium'));
+        largeBtn.addEventListener('click', () => changeFontSize('large'));
+        
+        // 初期設定：中サイズを適用
+        changeFontSize('medium');
+        
+        // 現在の年を取得して表示するJavaScript
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+    
             // サイドバーを開く関数
             function openNav() {
                 document.getElementById("mySidebar").style.width = "280px"; /* 少し幅を広げる */

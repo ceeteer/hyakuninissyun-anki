@@ -5,6 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>百人一瞬暗記 - 苦手句リスト</title>
     <style>
+         html {
+            font-size: 16px; /* デフォルトの基本フォントサイズ */
+        }
+        
+        /* --- 文字サイズ切替用のクラス (html要素に適用) --- */
+        html.font-size-small {
+            font-size: 14px;
+        }
+        html.font-size-medium {
+            font-size: 16px;
+        }
+        html.font-size-large {
+            font-size: 18px;
+        }
+
+
+ .font-size-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .font-size-controls button {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        
+        .font-size-controls button.active {
+            background-color: white;
+            color: #90EE90;
+        }
         /* 既存のスタイルを流用 */
         body {
             font-family: sans-serif;
@@ -18,8 +56,10 @@
             box-sizing: border-box;
             padding-top: 0px;
             overflow-x: hidden;
+            transition: font-size 0.3s ease; /* 文字サイズ変更時に滑らかに変化させる */
         }
-       .svg-title {
+  
+        .svg-title {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -162,11 +202,7 @@ right: 0;
         }
 
 
-        .header-icon {
-  height: 40px;
-  vertical-align: middle;
-  margin-right: 10px;
-}
+
 
 
 
@@ -253,17 +289,20 @@ right: 0;
             display: block;
         }
 
-        .content-section {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 700px;
-            width: 90%;
-            text-align: center;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-        }
+    
+.content-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* ↓ここを修正・追加↓ */
+    max-width: 800px; /* 画面が広い場合、元の最大幅から固定要素分を引く */
+    width: min(90%, calc(100vw - 300px)); /* 画面が狭い場合、ビューポートの幅から固定要素分を引く */
+    /* ↑ここを修正・追加↑ */
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
 
         .weak-poems-list {
             text-align: center;
@@ -337,6 +376,8 @@ right: 0;
             color: white;
             font-size: 0.9rem;
         }
+        /* --- お知らせエリアのスタイル (追加) --- */
+       
     </style>
 </head>
 <body>
@@ -344,20 +385,26 @@ right: 0;
     <div class="hero-right"></div>
     <header>
         <button class="open-sidebar-btn" onclick="openSidebar()">☰</button>
-  <h1 class="svg-title">
+ <h1 class="svg-title">
     <img src="images/karuta.png" alt="カルタのアイコン" class="header-icon">
-    <svg viewBox="0 0 700 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <svg viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
       <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">
         百人一瞬暗記
       </text>
     </svg>
   </h1>
+  <div class="font-size-controls">
+            <button id="font-size-small-btn">小</button>
+            <button id="font-size-medium-btn" class="active">中</button>
+            <button id="font-size-large-btn">大</button>
+        </div>
   <div class="header-right-spacer"></div>
          <a href="https://www.karuta.or.jp/
 " class="karuta-link-box">競技かるたへ興味のある方はこちらから</a>
 <a href="https://youtu.be/uL_GVMQo_-Y?si=u-UV2HNQE3WzWG1Q/" class="rulu-link-box">ルール解説動画</a>
         
     </header>
+    
 
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -367,6 +414,8 @@ right: 0;
             <li><a href="weak-poems.html" onclick="closeNav()">苦手句リスト</a></li>
             <li><a href="about.html" onclick="closeNav()">このアプリについて</a></li>
             <li><a href="privacy.html" onclick="closeNav()">プライバシーポリシー</a></li>
+            <li><a href="mail.html" onclick="closeNav()">お問い合わせ</a></li>
+            <li><a href="keep.html" onclick="closeNav()">管理者情報</a></li>
         </ul>
     </div>
 
@@ -384,6 +433,49 @@ right: 0;
     </footer>
 
     <script>
+
+   
+        // サイドバーを開く関数
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "280px";
+        }
+
+        // サイドバーを閉じる関数
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+        
+        // --- 文字サイズ変更機能 ---
+        // html要素を取得
+        const html = document.documentElement;
+        const smallBtn = document.getElementById('font-size-small-btn');
+        const mediumBtn = document.getElementById('font-size-medium-btn');
+        const largeBtn = document.getElementById('font-size-large-btn');
+        const sizeButtons = [smallBtn, mediumBtn, largeBtn];
+        
+        // 文字サイズを変更する関数
+        function changeFontSize(size) {
+            // html要素から既存のフォントサイズクラスをすべて削除
+            html.classList.remove('font-size-small', 'font-size-medium', 'font-size-large');
+            // 新しいフォントサイズクラスを追加
+            html.classList.add(`font-size-${size}`);
+            
+            // 全てのボタンからactiveクラスを削除
+            sizeButtons.forEach(btn => btn.classList.remove('active'));
+            // 選択されたボタンにactiveクラスを追加
+            document.getElementById(`font-size-${size}-btn`).classList.add('active');
+        }
+        
+        // 各ボタンにイベントリスナーを追加
+        smallBtn.addEventListener('click', () => changeFontSize('small'));
+        mediumBtn.addEventListener('click', () => changeFontSize('medium'));
+        largeBtn.addEventListener('click', () => changeFontSize('large'));
+        
+        // 初期設定：中サイズを適用
+        changeFontSize('medium');
+        
+        // 現在の年を取得して表示するJavaScript
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
         // サイドバー関連関数（start.htmlと共通）
         const sidebar = document.getElementById("mySidebar");
         const openSidebarBtn = document.querySelector(".open-sidebar-btn");
