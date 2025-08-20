@@ -297,32 +297,7 @@ right: 0;
             color: #7f8c8d; /* グレー */
         }
 
-        .slideshow-container {
-            position: absolute;
-            top:50%;
-            right: 0;
-            transform: translateY(-50%);
-            width:200px;
-            height: 300px;
-            overflow: hidden;
-            z-index: 10;
-
-        }
-        .slide {
-            position: absolute;
-            top: 0;
-            left:0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            object-fit: cover;
-        }
-
-        .slide:first-child{
-            opacity: 1;
-        }
-
+        
         /* --- フッターのスタイル --- */
         footer {
             margin-top: auto;
@@ -374,11 +349,7 @@ right: 0;
         <div id="privacyContent" class="content-card">
 
             <main>
-                <div class="slideshow-container">
-                    <img src="images/1.jpeg" class="slide" alt="スライド画像１">
-                     <img src="images/2.jpeg" class="slide" alt="スライド画像2">
-                      <img src="images/3.jpeg" class="slide" alt="スライド画像3">
-                </div>
+               
             </main>
             <h2>プライバシーポリシー</h2>
             <p>「百人一瞬暗記」アプリ（以下、「本アプリ」といいます）は、ユーザーの皆様のプライバシーを尊重し、個人情報の保護に最大限の注意を払っています。本プライバシーポリシーは、本アプリにおける個人情報の取り扱いについて説明するものです。</p>
