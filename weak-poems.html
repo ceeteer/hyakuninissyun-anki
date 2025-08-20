@@ -43,6 +43,29 @@
             background-color: white;
             color: #90EE90;
         }
+          /* --- 新規追加: ログイン・新規登録ボタンのコンテナとスタイル --- */
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 15px; /* サイズ調整ボタンとの間にスペースを追加 */
+        }
+
+        .auth-buttons button {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 20px; /* 角丸を大きくしてソフトな印象に */
+            cursor: pointer;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .auth-buttons button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
         /* 既存のスタイルを流用 */
         body {
             font-family: sans-serif;
@@ -102,7 +125,7 @@
     top: 78px; /* ヘッダーの高さに合わせる */
     bottom: 0px; /* フッターの高さ（例：53px）に合わせて調整 */
     width: 780px; /* ヒーロー画像の幅に合わせて調整 */
-    background-image: url('images/tatami.jpeg'); /* ← ここが正しい記述です */
+    background-image: url(tatami.jpeg); /* ← ここが正しい記述です */
     background-repeat: repeat; /* 縦方向に繰り返す */
     z-index: -1; /* コンテンツより背面に配置 */
     pointer-events: none; /* クリックイベントなどを透過 */
@@ -386,13 +409,18 @@ right: 0;
     <header>
         <button class="open-sidebar-btn" onclick="openSidebar()">☰</button>
  <h1 class="svg-title">
-    <img src="images/karuta.png" alt="カルタのアイコン" class="header-icon">
+    <img src="karuta.png" alt="カルタのアイコン" class="header-icon">
     <svg viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
       <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">
         百人一瞬暗記
       </text>
     </svg>
   </h1>
+             <!--新規登録、ログインボタンのコンテナ-->
+  <div class="auth-buttons">
+    <button onclick="handleLogin()">ログイン</button>
+    <button onclick="handleRegister()">新規登録</button>
+  </div>
   <div class="font-size-controls">
             <button id="font-size-small-btn">小</button>
             <button id="font-size-medium-btn" class="active">中</button>
@@ -565,6 +593,20 @@ right: 0;
         sidebarLinks.forEach(link => {
             link.addEventListener('click', closeNav);
         });
+        // --- 新規追加: ログイン・新規登録ボタンのダミー関数 ---
+        // ログインボタンがクリックされたときに実行される関数
+        function handleLogin() {
+            console.log("ログインボタンがクリックされました。");
+            // ここにPythonのログイン機能を呼び出す処理を記述します。
+            // 現時点ではデザインのみなので、コンソールにメッセージを表示します。
+        }
+
+        // 新規登録ボタンがクリックされたときに実行される関数
+        function handleRegister() {
+            console.log("新規登録ボタンがクリックされました。");
+            // ここにPythonの新規登録機能を呼び出す処理を記述します。
+            // 現時点ではデザインのみなので、コンソールにメッセージを表示します。
+        }
     </script>
 </body>
 </html>
