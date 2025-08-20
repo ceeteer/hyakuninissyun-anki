@@ -41,6 +41,29 @@
             background-color: white;
             color: #90EE90;
         }
+         /* --- 新規追加: ログイン・新規登録ボタンのコンテナとスタイル --- */
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 15px; /* サイズ調整ボタンとの間にスペースを追加 */
+        }
+
+        .auth-buttons button {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 20px; /* 角丸を大きくしてソフトな印象に */
+            cursor: pointer;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .auth-buttons button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
         body {
             font-family: sans-serif;
             background: #f4f4f4;
@@ -488,6 +511,11 @@ right: 0;
                 <img src="images/karuta.png" alt="" class="header-icon">
                 百人一瞬暗記
             </h1>
+             <!--新規登録、ログインボタンのコンテナ-->
+  <div class="auth-buttons">
+    <button onclick="handleLogin()">ログイン</button>
+    <button onclick="handleRegister()">新規登録</button>
+  </div>
              <div class="font-size-controls">
             <button id="font-size-small-btn">小</button>
             <button id="font-size-medium-btn" class="active">中</button>
@@ -898,6 +926,20 @@ scrollToBottomBtn.addEventListener('click', function() {
         behavior: 'smooth' // スムーズスクロール
     });
 });
+  // --- 新規追加: ログイン・新規登録ボタンのダミー関数 ---
+        // ログインボタンがクリックされたときに実行される関数
+        function handleLogin() {
+            console.log("ログインボタンがクリックされました。");
+            // ここにPythonのログイン機能を呼び出す処理を記述します。
+            // 現時点ではデザインのみなので、コンソールにメッセージを表示します。
+        }
+
+        // 新規登録ボタンがクリックされたときに実行される関数
+        function handleRegister() {
+            console.log("新規登録ボタンがクリックされました。");
+            // ここにPythonの新規登録機能を呼び出す処理を記述します。
+            // 現時点ではデザインのみなので、コンソールにメッセージを表示します。
+        }
 </script>
 </body>
 </html>
