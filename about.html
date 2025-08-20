@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>百人一瞬暗記</title>
     <style>
-        /* Google Fonts for 'Noto Serif JP' */
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap');
-        
         /* --- 全体的なスタイルと初期設定 --- */
         html {
             font-size: 16px; /* デフォルトの基本フォントサイズ */
@@ -44,12 +41,11 @@
             top: 77px;
             bottom: 0px;
             width: 780px;
-            background-image: url('https://placehold.co/780x500/A0A0A0/FFFFFF?text=Tatami+Pattern');
+            background-image: url(images/tatami.jpeg);
             background-repeat: repeat;
             z-index: -1;
             pointer-events: none;
         }
-        /* NOTE: Since external images are not accessible, a placeholder is used for demonstration. */
 
         .hero-left { left: 0; }
         .hero-right { right: 0; }
@@ -91,31 +87,6 @@
             text-align: center;
         }
 
-        /* 新しいコンテナ：ログイン・新規登録ボタンと文字サイズ調整ボタンをまとめる */
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px; /* ボタン間のスペースを調整 */
-        }
-
-        /* ログイン・新規登録ボタンのスタイル */
-        .auth-buttons button {
-            background-color: transparent;
-            color: white;
-            border: 1px solid white;
-            border-radius: 4px;
-            cursor: pointer;
-            padding: 6px 10px; /* 小さめサイズに調整 */
-            font-size: 0.9rem; /* フォントサイズも小さめに */
-            transition: background-color 0.2s, color 0.2s;
-            white-space: nowrap; /* ボタン内のテキストが改行されないようにする */
-        }
-        
-        .auth-buttons button:hover {
-            background-color: white;
-            color: #90EE90;
-        }
-
         .font-size-controls {
             display: flex;
             align-items: center;
@@ -137,6 +108,30 @@
         .font-size-controls button.active {
             background-color: white;
             color: #90EE90;
+        }
+
+        /* --- 新規追加: ログイン・新規登録ボタンのコンテナとスタイル --- */
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 15px; /* サイズ調整ボタンとの間にスペースを追加 */
+        }
+
+        .auth-buttons button {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 20px; /* 角丸を大きくしてソフトな印象に */
+            cursor: pointer;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .auth-buttons button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
         }
 
         /* --- サイドバースタイルの追加 --- */
@@ -276,107 +271,76 @@
             font-size: 0.95rem;
             box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
         }
-
-        /* --- レスポンシブデザインの調整 --- */
-        @media (max-width: 768px) {
-            header {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 10px;
-            }
-
-            .header-controls {
-                order: 1; /* スマホでは下段に配置 */
-                width: 100%;
-                justify-content: center;
-                margin-top: 5px;
-            }
-
-            .header-title {
-                order: 0; /* スマホでは上段に配置 */
-                width: 100%;
-                text-align: center;
-            }
-        }
     </style>
 </head>
 <body class="font-size-medium">
-    <!-- 背景画像（タタミ） - 外部画像が使用できないためプレースホルダーを使用 -->
     <div class="hero-left"></div>
     <div class="hero-right"></div>
-    
     <header>
         <button class="openbtn" onclick="openNav()">&#9776;</button>
-        <h1 class="header-title">
-            <img src="https://placehold.co/40x40/FF0000/FFFFFF?text=かるた" alt="かるたのアイコン" class="header-icon">
+        <h1>
+            <img src="images/karuta.png" alt="" class="header-icon">
             百人一瞬暗記
         </h1>
-        <div class="header-controls">
-            <!-- ログイン・新規登録ボタン -->
-            <div class="auth-buttons">
-                <button onclick="handleLogin()">ログイン</button>
-                <button onclick="handleRegister()">新規登録</button>
-            </div>
-            <!-- 文字サイズ調整ボタン -->
-            <div class="font-size-controls">
-                <button id="font-size-small-btn">小</button>
-                <button id="font-size-medium-btn" class="active">中</button>
-                <button id="font-size-large-btn">大</button>
-            </div>
+        <!-- 新規追加: ログイン・新規登録ボタンのコンテナ -->
+        <div class="auth-buttons">
+            <button onclick="handleLogin()">ログイン</button>
+            <button onclick="handleRegister()">新規登録</button>
+        </div>
+        <div class="font-size-controls">
+            <button id="font-size-small-btn">小</button>
+            <button id="font-size-medium-btn" class="active">中</button>
+            <button id="font-size-large-btn">大</button>
         </div>
     </header>
 
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <ul>
-            <li><a href="#" onclick="closeNav(); handleNavigation('home')">ホーム</a></li>
-            <li><a href="#" onclick="closeNav(); handleNavigation('list')">句一覧</a></li>
-            <li><a href="#" onclick="closeNav(); handleNavigation('weak-poems')">苦手句リスト</a></li>
-            <li><a href="#" onclick="closeNav(); handleNavigation('about')">このアプリについて</a></li>
-            <li><a href="#" onclick="closeNav(); handleNavigation('privacy')">プライバシーポリシー</a></li>
-            <li><a href="#" onclick="closeNav(); handleNavigation('contact')">お問い合わせ</a></li>
-            <li><a href="#" onclick="closeNav(); handleNavigation('admin')">管理者情報</a></li>
+            <li><a href="start.html" onclick="closeNav()">ホーム</a></li>
+            <li><a href="list.html" onclick="closeNav()">句一覧</a></li>
+            <li><a href="weak-poems.html" onclick="closeNav()">苦手句リスト</a></li>
+            <li><a href="about.html" onclick="closeNav()">このアプリについて</a></li>
+            <li><a href="privacy.html" onclick="closeNav()">プライバシーポリシー</a></li>
+            <li><a href="mail.html" onclick="closeNav()">お問い合わせ</a></li>
+            <li><a href="keep.html" onclick="closeNav()">管理者情報</a></li>
         </ul>
     </div>
 
-    <!-- メインコンテンツを動的に表示するコンテナ -->
-    <div id="mainContent">
-        <!-- 初期コンテンツとして「このアプリについて」のカードを表示 -->
-        <div id="aboutContent" class="content-card">
-            <h2>百人一瞬暗記について</h2>
-            <p>このアプリは、日本の古典文学である百人一首の暗記を助けるために開発されました。百人一首は、平安時代から鎌倉時代にかけての優れた歌人百人の和歌を一人一首ずつ選んだ歌集で、日本の伝統文化の象徴として親しまれています。</p>
+    <div id="aboutContent" class="content-card">
+        <h2>百人一瞬暗記について</h2>
+        <p>このアプリは、日本の古典文学である百人一首の暗記を助けるために開発されました。百人一首は、平安時代から鎌倉時代にかけての優れた歌人百人の和歌を一人一首ずつ選んだ歌集で、日本の伝統文化の象徴として親しまれています。</p>
 
-            <h3>アプリの目的</h3>
-            <p>「百人一瞬暗記」は、百人一首の上の句（最初の五七五）から下の句（後の七七）を効率的に覚えることを目的としています。ランダムモードと1からの順番モードを提供し、ユーザーが自分の学習スタイルに合わせて暗記を進められるよう設計されています。</p>
+        <h3>アプリの目的</h3>
+        <p>「百人一瞬暗記」は、百人一首の上の句（最初の五七五）から下の句（後の七七）を効率的に覚えることを目的としています。ランダムモードと1からの順番モードを提供し、ユーザーが自分の学習スタイルに合わせて暗記を進められるよう設計されています。</p>
 
-            <h3>主な機能</h3>
-            <ul>
-                <li><strong>暗記モードの選択</strong>:
-                    <ul>
-                        <li><strong>ランダムに開始</strong>: 歌がランダムな順序で表示されるため、特定の歌に偏らず満遍なく学習できます。</li>
-                        <li><strong>1から開始</strong>: 歌が百人一首の番号順に表示されるため、体系的に学習を進めたい場合に適しています。</li>
-                    </ul>
-                </li>
-                <li><strong>答えの表示/非表示</strong>: 上の句を見て下の句を思い出す練習ができます。「答えを見る」ボタンで下の句とその読みが表示され、「答えを隠す」で非表示に戻せます。</li>
-                <li><strong>ナビゲーション</strong>:
-                    <ul>
-                        <li>「次の句へ」ボタンで次の歌に進めます。全ての歌を見終えると、最初に戻り、ランダムモードの場合は再度シャッフルされます。</li>
-                        <li>「前の句に戻る」ボタンで前の歌に戻ることができます。</li>
-                        <li>「最初から」ボタンでいつでもモード選択画面に戻り、学習をやり直せます。</li>
-                    </ul>
-                </li>
-            </ul>
+        <h3>主な機能</h3>
+        <ul>
+            <li><strong>暗記モードの選択</strong>:
+                <ul>
+                    <li><strong>ランダムに開始</strong>: 歌がランダムな順序で表示されるため、特定の歌に偏らず満遍なく学習できます。</li>
+                    <li><strong>1から開始</strong>: 歌が百人一首の番号順に表示されるため、体系的に学習を進めたい場合に適しています。</li>
+                </ul>
+            </li>
+            <li><strong>答えの表示/非表示</strong>: 上の句を見て下の句を思い出す練習ができます。「答えを見る」ボタンで下の句とその読みが表示され、「答えを隠す」で非表示に戻せます。</li>
+            <li><strong>ナビゲーション</strong>:
+                <ul>
+                    <li>「次の句へ」ボタンで次の歌に進めます。全ての歌を見終えると、最初に戻り、ランダムモードの場合は再度シャッフルされます。</li>
+                    <li>「前の句に戻る」ボタンで前の歌に戻ることができます。</li>
+                    <li>「最初から」ボタンでいつでもモード選択画面に戻り、学習をやり直せます。</li>
+                </ul>
+            </li>
+        </ul>
 
-            <h3>想定されるユーザー</h3>
-            <p>このアプリは、以下のような方々に特におすすめです。</p>
-            <ul>
-                <li>百人一首をこれから学び始める学生や初心者。</li>
-                <li>競技かるたに興味があり、下の句を効率よく暗記したい方。</li>
-                <li>日本の古典文学や文化に触れたい方。</li>
-                <li>通勤通学中やちょっとした空き時間に手軽に学習したい方。</li>
-            </ul>
-            <p>「百人一瞬暗記」が皆様の百人一首学習の一助となれば幸いです。</p>
-        </div>
+        <h3>想定されるユーザー</h3>
+        <p>このアプリは、以下のような方々に特におすすめです。</p>
+        <ul>
+            <li>百人一首をこれから学び始める学生や初心者。</li>
+            <li>競技かるたに興味があり、下の句を効率よく暗記したい方。</li>
+            <li>日本の古典文学や文化に触れたい方。</li>
+            <li>通勤通学中やちょっとした空き時間に手軽に学習したい方。</li>
+        </ul>
+        <p>「百人一瞬暗記」が皆様の百人一首学習の一助となれば幸いです。</p>
     </div>
     
     <footer>
@@ -392,54 +356,6 @@
         // サイドバーを閉じる関数
         function closeNav() {
             document.getElementById("mySidebar").style.width = "0";
-        }
-
-        // ページを切り替えるダミー関数
-        function handleNavigation(page) {
-            const mainContent = document.getElementById('mainContent');
-            let content = '';
-            
-            // 実際のアプリケーションでは、ここに各ページのHTMLコンテンツを読み込むロジックを実装します
-            switch(page) {
-                case 'home':
-                    content = '<div class="content-card"><h2>ホーム</h2><p>百人一首の暗記を始めましょう！</p></div>';
-                    break;
-                case 'list':
-                    content = '<div class="content-card"><h2>句一覧</h2><p>全ての百人一首の句を一覧表示します。</p></div>';
-                    break;
-                case 'weak-poems':
-                    content = '<div class="content-card"><h2>苦手句リスト</h2><p>暗記が苦手な句をここに表示します。</p></div>';
-                    break;
-                case 'about':
-                    // 元のHTMLコンテンツを再利用
-                    content = document.getElementById('aboutContent').outerHTML;
-                    break;
-                case 'privacy':
-                    content = '<div class="content-card"><h2>プライバシーポリシー</h2><p>このアプリのプライバシーポリシーに関する情報です。</p></div>';
-                    break;
-                case 'contact':
-                    content = '<div class="content-card"><h2>お問い合わせ</h2><p>ご意見・ご要望はこちらからお寄せください。</p></div>';
-                    break;
-                case 'admin':
-                    content = '<div class="content-card"><h2>管理者情報</h2><p>管理者情報に関するページです。</p></div>';
-                    break;
-                default:
-                    content = '<div class="content-card"><h2>ページが見つかりません</h2><p>お探しのページは存在しません。</p></div>';
-            }
-            mainContent.innerHTML = content;
-        }
-
-        // ログインボタンと新規登録ボタンのクリックイベントを処理するダミー関数
-        function handleLogin() {
-            console.log('ログインボタンがクリックされました。');
-            // 実際の機能では、ここにログインモーダルを表示したり、ログインページに遷移したりするロジックを実装します
-            alert('このボタンはログイン機能の実装用です。');
-        }
-
-        function handleRegister() {
-            console.log('新規登録ボタンがクリックされました。');
-            // 実際の機能では、ここに新規登録モーダルを表示したり、登録ページに遷移したりするロジックを実装します
-            alert('このボタンは新規登録機能の実装用です。');
         }
         
         // --- 文字サイズ変更機能 ---
@@ -473,6 +389,21 @@
         
         // 現在の年を取得して表示するJavaScript
         document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+        // --- 新規追加: ログイン・新規登録ボタンのダミー関数 ---
+        // ログインボタンがクリックされたときに実行される関数
+        function handleLogin() {
+            console.log("ログインボタンがクリックされました。");
+            // ここにPythonのログイン機能を呼び出す処理を記述します。
+            // 現時点ではデザインのみなので、コンソールにメッセージを表示します。
+        }
+
+        // 新規登録ボタンがクリックされたときに実行される関数
+        function handleRegister() {
+            console.log("新規登録ボタンがクリックされました。");
+            // ここにPythonの新規登録機能を呼び出す処理を記述します。
+            // 現時点ではデザインのみなので、コンソールにメッセージを表示します。
+        }
     </script>
 </body>
 </html>
