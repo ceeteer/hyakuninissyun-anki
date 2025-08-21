@@ -8,6 +8,32 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
+           /* --- 文字サイズ切替用のクラス (html要素に適用) --- */
+        html.font-size-small {
+            font-size: 14px;
+        }
+        html.font-size-medium {
+            font-size: 16px;
+        }
+        html.font-size-large {
+            font-size: 18px;
+        }
+          .font-size-controls button {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        
+        .font-size-controls button.active {
+            background-color: white;
+            color: #90EE90;
+        }
         /* 既存の共通スタイルを流用 */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* モダンなフォント */
@@ -21,6 +47,7 @@
             box-sizing: border-box;
             padding-top: 80px; /* ヘッダーの高さに合わせて調整 */
             overflow-x: hidden; /* 水平方向のスクロールバーを非表示にする */
+            transition: font-size 0.3s ease; /* 文字サイズ変更時に滑らかに変化させる */
         }
 
         .hero-left, .hero-right {
@@ -28,7 +55,7 @@
             top: 77px; /* ヘッダーの高さに合わせる */
             bottom: 0px; /* フッターの高さ（例：53px）に合わせて調整 */
             width: 780px; /* ヒーロー画像の幅に合わせて調整 */
-            background-image: url('images/tatami.jpeg'); /* ← ここが正しい記述です */
+            background-image: url(tatami.jpeg); /* ← ここが正しい記述です */
             background-repeat: repeat; /* 縦方向に繰り返す */
             z-index: -1; /* コンテンツより背面に配置 */
             pointer-events: none; /* クリックイベントなどを透過 */
@@ -83,6 +110,26 @@
         header .header-right-spacer {
             width: 48px;
             height: 1px;
+        }
+
+           /* --- 新規追加: ログイン・新規登録ボタンのコンテナとスタイル --- */
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 15px; /* サイズ調整ボタンとの間にスペースを追加 */
+        }
+
+        .auth-buttons button {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 20px; /* 角丸を大きくしてソフトな印象に */
+            cursor: pointer;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
         }
 
         /* --- サイドバースタイルの追加 --- */
@@ -315,9 +362,19 @@
     <header>
         <button class="openbtn" onclick="openNav()">&#9776;</button>
         <h1>
-            <img src="images/karuta.png" alt="" class="header-icon">
+            <img src="karuta.png" alt="" class="header-icon">
             百人一瞬暗記
         </h1>
+         <!-- 新規追加: ログイン・新規登録ボタンのコンテナ -->
+        <div class="auth-buttons">
+            <button onclick="handleLogin()">ログイン</button>
+            <button onclick="handleRegister()">新規登録</button>
+        </div>
+             <div class="font-size-controls">
+            <button id="font-size-small-btn">小</button>
+            <button id="font-size-medium-btn" class="active">中</button>
+            <button id="font-size-large-btn">大</button>
+        </div>
         <div class="header-right-spacer"></div> </header>
 
     <div id="mySidebar" class="sidebar">
@@ -329,6 +386,7 @@
             <li><a href="about.html" onclick="closeNav()">このアプリについて</a></li>
             <li><a href="privacy.html" onclick="closeNav()">プライバシーポリシー</a></li>
             <li><a href="mail.html" onclick="closeNav()">お問い合わせ</a></li>
+            <li><a href="keep.html" onclick="closeNav()">管理者情報</a></li>
         </ul>
     </div>
 
@@ -362,6 +420,38 @@
     </footer>
 
     <script>
+        // --- 文字サイズ変更機能 ---
+        // html要素を取得
+        const html = document.documentElement;
+        const smallBtn = document.getElementById('font-size-small-btn');
+        const mediumBtn = document.getElementById('font-size-medium-btn');
+        const largeBtn = document.getElementById('font-size-large-btn');
+        const sizeButtons = [smallBtn, mediumBtn, largeBtn];
+        
+        // 文字サイズを変更する関数
+        function changeFontSize(size) {
+            // html要素から既存のフォントサイズクラスをすべて削除
+            html.classList.remove('font-size-small', 'font-size-medium', 'font-size-large');
+            // 新しいフォントサイズクラスを追加
+            html.classList.add(`font-size-${size}`);
+            
+            // 全てのボタンからactiveクラスを削除
+            sizeButtons.forEach(btn => btn.classList.remove('active'));
+            // 選択されたボタンにactiveクラスを追加
+            document.getElementById(`font-size-${size}-btn`).classList.add('active');
+        }
+        
+        // 各ボタンにイベントリスナーを追加
+        smallBtn.addEventListener('click', () => changeFontSize('small'));
+        mediumBtn.addEventListener('click', () => changeFontSize('medium'));
+        largeBtn.addEventListener('click', () => changeFontSize('large'));
+        
+        // 初期設定：中サイズを適用
+        changeFontSize('medium');
+        
+        // 現在の年を取得して表示するJavaScript
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+    
         // サイドバー関連関数（既存のものを流用）
         const sidebar = document.getElementById("mySidebar");
         const openSidebarBtn = document.querySelector(".openbtn");
@@ -527,6 +617,21 @@
 
         // ページロード時に一度フォームの検証を実行し、送信ボタンの状態を初期設定
         document.addEventListener('DOMContentLoaded', validateForm);
+
+         // --- 新規追加: ログイン・新規登録ボタンのダミー関数 ---
+        // ログインボタンがクリックされたときに実行される関数
+        function handleLogin() {
+            console.log("ログインボタンがクリックされました。");
+            // ここにPythonのログイン機能を呼び出す処理を記述します。
+            // 現時点ではデザインのみなので、コンソールにメッセージを表示します。
+        }
+
+        // 新規登録ボタンがクリックされたときに実行される関数
+        function handleRegister() {
+            console.log("新規登録ボタンがクリックされました。");
+            // ここにPythonの新規登録機能を呼び出す処理を記述します。
+            // 現時点ではデザインのみなので、コンソールにメッセージを表示します。
+        }
     </script>
 </body>
 </html>
