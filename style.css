@@ -805,5 +805,82 @@ right: 0;
     background-color: #777; /* ホバー時の背景色 */
 }
 
+/*---以下はweak-poems.htmlでのスタイル---*/
+.content-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* ↓ここを修正・追加↓ */
+    max-width: 800px; /* 画面が広い場合、元の最大幅から固定要素分を引く */
+    width: min(90%, calc(100vw - 300px)); /* 画面が狭い場合、ビューポートの幅から固定要素分を引く */
+    /* ↑ここを修正・追加↑ */
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+        .weak-poems-list {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .weak-poem-item {
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .weak-poem-item p {
+            margin: 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+#clearWeakPoemsButton {
+    background-color: #90EE90; /* 薄緑色 (LightGreen) */
+    color: #333; /* アイコンと文字の色を黒っぽく */
+    border: none; /* 枠線なし */
+    border-radius: 8px; /* 角丸 */
+    padding: 10px 20px; /* 上下10px、左右20pxの余白でボタンの長さを調整 */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    
+    /* === 以下のflexbox関連はアイコンとテキストの配置用 === */
+    display: flex; /* アイコンとテキストを横並びにする */
+    justify-content: center; /* 水平方向の中央揃え */
+    align-items: center; /* 垂直方向の中央揃え */
+    gap: 8px; /* テキストとアイコンの間に8pxの隙間を作る */
+    
+    /* === ここを修正/削除 === */
+    /* width: 60px; */ /* これを削除 */
+    /* height: 60px; */ /* これを削除 */
+    
+    margin: 1.5rem auto; /* 上下のマージンは1.5rem、左右は自動で中央寄せ */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* ホバー時のアニメーション */
+}
+
+/* ボタン内のアイコンのサイズを調整する */
+#clearWeakPoemsButton i {
+    font-size: 1.2em; /* アイコンのサイズ（ボタン全体のfont-sizeに対する比率） */
+}
+
+/* 必要であれば、ボタン内のテキストのスタイルも調整 */
+#clearWeakPoemsButton span {
+    font-size: 1em; /* テキストのサイズ */
+    white-space: nowrap; /* テキストが折り返さないように */
+}
+
+
+#clearWeakPoemsButton:hover {
+    background-color: #7CFC00; /* ホバー時に少し濃い緑に (LawnGreen) */
+    transform: scale(1.05); /* ホバー時に少し拡大 */
+}
+
+        .no-poems {
+            font-size: 1.2rem;
+            color: #666;
+        }
 
        
