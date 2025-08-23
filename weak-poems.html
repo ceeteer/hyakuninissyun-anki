@@ -4,7 +4,402 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>百人一瞬暗記 - 苦手句リスト</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+     html {
+            font-size: 16px; /* デフォルトの基本フォントサイズ */
+        }
+        
+        /* --- 文字サイズ切替用のクラス (html要素に適用) --- */
+        html.font-size-small {
+            font-size: 14px;
+        }
+        html.font-size-medium {
+            font-size: 16px;
+        }
+        html.font-size-large {
+            font-size: 18px;
+        }
+
+
+ .font-size-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .font-size-controls button {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        
+        .font-size-controls button.active {
+            background-color: white;
+            color: #90EE90;
+        }
+          /* --- 新規追加: ログイン・新規登録ボタンのコンテナとスタイル --- */
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 15px; /* サイズ調整ボタンとの間にスペースを追加 */
+        }
+
+        .auth-buttons button {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 20px; /* 角丸を大きくしてソフトな印象に */
+            cursor: pointer;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .auth-buttons button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        /* 既存のスタイルを流用 */
+        body {
+            font-family: sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            padding-top: 0px;
+            overflow-x: hidden;
+            transition: font-size 0.3s ease; /* 文字サイズ変更時に滑らかに変化させる */
+        }
+  
+        .svg-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-grow: 1;
+}
+.svg-title svg {
+  height: 40px; /* ← 高さを抑えめに */
+  width: auto;
+}
+
+.svg-title svg text {
+  font-size: 30px;
+  fill: url(#gradient); /* グラデーションで塗る */
+  stroke: black;
+  stroke-width: 1px;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawText 3s ease forwards, fadeInFill 3s ease-in-out 1.5s forwards;
+}
+
+@keyframes drawText {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeInFill {
+  from {
+    fill: transparent;
+  }
+  to {
+    fill: #333;
+  }
+}
+  
+
+        .hero-left, .hero-right {
+    position: fixed; /* ヘッダーとフッターの間で固定 */
+    top: 78px; /* ヘッダーの高さに合わせる */
+    bottom: 0px; /* フッターの高さ（例：53px）に合わせて調整 */
+    width: 780px; /* ヒーロー画像の幅に合わせて調整 */
+    background-image: url(tatami.jpeg); /* ← ここが正しい記述です */
+    background-repeat: repeat; /* 縦方向に繰り返す */
+    z-index: -1; /* コンテンツより背面に配置 */
+    pointer-events: none; /* クリックイベントなどを透過 */
+}
+
+.hero-left {
+left: 0;
+}
+
+.hero-right {
+right: 0;
+}
+
+ .karuta-link-box {
+            position: fixed; /* ヘッダーのすぐ下に固定配置 */
+            top: 80px; /* ヘッダーの高さに合わせて調整 (bodyのpadding-topと同じ値) */
+            right: 0px; /* 右端からの距離 */
+            background-color: #4CAF50; /* 少し濃いめの緑色 */
+            color: white;
+            padding: 8px 15px; /* 上下、左右のパディング */
+            border-radius: 5px; /* 角を丸くする */
+            text-decoration: none; /* 下線なし */
+            font-size: 0.9em; /* フォントサイズ */
+            white-space: nowrap; /* テキストが折り返さないように */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 影 */
+            z-index: 998; /* ヘッダー (1000) やサイドバー (1001) より下、通常のコンテンツより上 */
+            display: flex; /* テキストを中央寄せ */
+            align-items: center; /* 垂直方向中央寄せ */
+            justify-content: center; /* 水平方向中央寄せ */
+            width: 250px; /* 最小幅を設定して細長く見せる */
+            height: 40px; /* 高さを設定 */
+        }
+
+        .karuta-link-box:hover {
+            background-color: #45a049; /* ホバー時の色 */
+        }
+              .rulu-link-box {
+    position: fixed;
+    top: 136px;
+    right: 0px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9em;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 変更点: min-width を width に変更し、karuta-link-box と同じ固定幅を設定 */
+    width: 250px; /* karuta-link-box と同じ値に設定してください */
+    height: 40px;
+}
+
+.rulu-link-box:hover {
+    background-color: #45a049;
+}
+
+        header {
+            background: #90EE90;
+            color: white;
+            width: 100%;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex; /* メニューボタンとタイトルを横並びにするため */
+            align-items: center;
+            justify-content: space-between;
+            padding-left: 1rem; /* メニューボタンのスペース */
+            padding-right: 1rem; /* バランスのための右側のスペース */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 10rem;
+            font-family: 'Noto Serif JP', serif;
+            flex-grow: 1;
+            text-align: center;
+            
+        }
+
+        .header-icon {
+            width: 40px; /* アイコンの幅 */
+            height: 40px; /* アイコンの高さ */
+            border-radius: 50%; /* 丸くする */
+            object-fit: cover; /* 画像がはみ出さないように */
+            margin-right: 10px; /* タイトルとの間に少し余白 */
+            vertical-align: middle; /* タイトルと縦方向を揃える */
+            /* positionとleftは削除 */
+        }
+
+
+
+
+
+
+        header .header-right-spacer {
+            width: 48px;
+            height: 1px;
+        }
+
+        .open-sidebar-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0 10px;
+            z-index: 1002;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1001;
+            top: 0;
+            left: 0;
+            background-color: #90EE90;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+        }
+
+        .sidebar.active {
+            width: 250px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            color: #f1f1f1;
+            background-color: #555;
+        }
+
+        .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: #818181;
+            text-decoration: none;
+            padding: 8px 0;
+        }
+
+        .closebtn:hover {
+            color: #f1f1f1;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+    
+.content-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* ↓ここを修正・追加↓ */
+    max-width: 800px; /* 画面が広い場合、元の最大幅から固定要素分を引く */
+    width: min(90%, calc(100vw - 300px)); /* 画面が狭い場合、ビューポートの幅から固定要素分を引く */
+    /* ↑ここを修正・追加↑ */
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+        .weak-poems-list {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .weak-poem-item {
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .weak-poem-item p {
+            margin: 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+#clearWeakPoemsButton {
+    background-color: #90EE90; /* 薄緑色 (LightGreen) */
+    color: #333; /* アイコンと文字の色を黒っぽく */
+    border: none; /* 枠線なし */
+    border-radius: 8px; /* 角丸 */
+    padding: 10px 20px; /* 上下10px、左右20pxの余白でボタンの長さを調整 */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    
+    /* === 以下のflexbox関連はアイコンとテキストの配置用 === */
+    display: flex; /* アイコンとテキストを横並びにする */
+    justify-content: center; /* 水平方向の中央揃え */
+    align-items: center; /* 垂直方向の中央揃え */
+    gap: 8px; /* テキストとアイコンの間に8pxの隙間を作る */
+    
+    /* === ここを修正/削除 === */
+    /* width: 60px; */ /* これを削除 */
+    /* height: 60px; */ /* これを削除 */
+    
+    margin: 1.5rem auto; /* 上下のマージンは1.5rem、左右は自動で中央寄せ */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* ホバー時のアニメーション */
+}
+
+/* ボタン内のアイコンのサイズを調整する */
+#clearWeakPoemsButton i {
+    font-size: 1.2em; /* アイコンのサイズ（ボタン全体のfont-sizeに対する比率） */
+}
+
+/* 必要であれば、ボタン内のテキストのスタイルも調整 */
+#clearWeakPoemsButton span {
+    font-size: 1em; /* テキストのサイズ */
+    white-space: nowrap; /* テキストが折り返さないように */
+}
+
+
+#clearWeakPoemsButton:hover {
+    background-color: #7CFC00; /* ホバー時に少し濃い緑に (LawnGreen) */
+    transform: scale(1.05); /* ホバー時に少し拡大 */
+}
+
+        .no-poems {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        footer {
+            margin-top: auto;
+            width: 100%;
+            text-align: center;
+            padding: 1rem 0;
+            background: #90EE90;
+            color: white;
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
      <div class="hero-left"></div>
