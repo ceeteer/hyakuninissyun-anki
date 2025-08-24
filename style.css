@@ -888,18 +888,15 @@ right: 0;
 
 /*---以下はabout.htmlのみ適用する---*/
 /* メニューボタン */
-.openbtn {
-  font-size: 24px;
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  color:white;
-  margin: 10px;
-}
-
-.openbtn:hover {
-  color: #0078d7; /* ホバー時に色が変わる */
-}
+.open-sidebar-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0 10px;
+            z-index: 1002; /* サイドバーより手前に表示 */
+        }
 
  /* --- メインコンテンツのカードスタイル（Aboutページの内容も含む） --- */
         .content-card {
