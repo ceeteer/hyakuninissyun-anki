@@ -887,6 +887,18 @@ right: 0;
 }
 
 /*---以下はabout.htmlのみ適用する---*/
+ /* --- ハンバーガーメニューボタンのスタイル --- */
+        .openbtn {
+            font-size: 30px;
+            cursor: pointer;
+            background-color: transparent;
+            color: white;
+            padding: 0;
+            border: none;
+        }
+
+        .openbtn:hover { color: #f1f1f1; }
+
  /* --- メインコンテンツのカードスタイル（Aboutページの内容も含む） --- */
         .content-card {
             background: linear-gradient(145deg, #ffffff, #f0f0f0);
