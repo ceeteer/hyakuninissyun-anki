@@ -887,17 +887,19 @@ right: 0;
 }
 
 /*---以下はabout.htmlのみ適用する---*/
- /* --- ハンバーガーメニューボタンのスタイル --- */
-        .openbtn {
-            font-size: 30px;
-            cursor: pointer;
-            background-color: transparent;
-            color: white;
-            padding: 0;
-            border: none;
-        }
+/* メニューボタン */
+.openbtn {
+  font-size: 24px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color: #333;
+  margin: 10px;
+}
 
-        .openbtn:hover { color: #f1f1f1; }
+.openbtn:hover {
+  color: #0078d7; /* ホバー時に色が変わる */
+}
 
  /* --- メインコンテンツのカードスタイル（Aboutページの内容も含む） --- */
         .content-card {
@@ -967,43 +969,5 @@ right: 0;
 
 
 
-
-
-         /* --- サイドバースタイルの追加 --- */
-        .sidebar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1001;
-            top: 0;
-            left: 0;
-            background-color: #90EE90;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.3);
-        }
-
-        .sidebar.active { width: 250px; }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .sidebar ul li a {
-            padding: 15px 25px;
-            text-decoration: none;
-            font-size: 1.1rem;
-            color: white;
-            display: block;
-            transition: 0.3s;
-        }
-
-        .sidebar ul li a:hover {
-            color: #333;
-            background-color: #f1f1f1;
-        }
 
        
