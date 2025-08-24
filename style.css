@@ -886,4 +886,69 @@ right: 0;
     display: block;
 }
 
+/*---以下はabout.htmlのみ適用する---*/
+ /* --- メインコンテンツのカードスタイル（Aboutページの内容も含む） --- */
+        .content-card {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            max-width: 800px;
+            width: 90%;
+            text-align: left;
+            margin-top: 120px;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .content-card h2 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 0.8rem;
+            text-align: center;
+        }
+
+        .content-card h3 {
+            color: #34495e;
+            font-size: 1.6rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .content-card h3::before {
+            content: '•';
+            color: #3498db;
+            font-size: 2rem;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .content-card p { font-size: 1.1rem; margin-bottom: 1rem; }
+        .content-card ul { list-style: none; padding-left: 0; margin-bottom: 1rem; }
+        .content-card ul li {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 25px;
+        }
+        .content-card ul li::before {
+            content: '✓';
+            color: #27ae60;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .content-card ul ul { list-style: none; padding-left: 20px; margin-top: 0.5rem; }
+        .content-card ul ul li::before { content: '-'; color: #7f8c8d; }
+
+
        
