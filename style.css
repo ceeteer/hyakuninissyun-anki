@@ -961,6 +961,128 @@ right: 0;
         .content-card ul ul { list-style: none; padding-left: 20px; margin-top: 0.5rem; }
         .content-card ul ul li::before { content: '-'; color: #7f8c8d; }
 
+       /*---以下はmail.htmlを適用する---*/
+       /* --- 新しいお問い合わせフォームのスタイル --- */
+        .contact-container {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0); /* グラデーション背景 */
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            max-width: 600px; /* フォームの幅を少し狭める */
+            width: 90%;
+            text-align: left;
+            margin-top: 120px; /* ヘッダーの高さと余白を考慮 */
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .contact-container h2 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 0.8rem;
+            text-align: center;
+        }
+
+        .contact-form label {
+            display: block; /* ラベルをブロック要素にして改行 */
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+            font-size: 1.05rem;
+        }
+
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            width: calc(100% - 20px); /* paddingを考慮 */
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1.0rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-form input[type="text"]:focus,
+        .contact-form input[type="email"]:focus,
+        .contact-form textarea:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.4);
+            outline: none; /* フォーカス時のデフォルトのアウトラインを削除 */
+        }
+
+        .contact-form textarea {
+            resize: vertical; /* 垂直方向にのみリサイズ可能にする */
+            min-height: 120px;
+        }
+
+        .contact-form .required::after {
+            content: " *";
+            color: #e74c3c; /* 赤色 */
+            font-size: 0.9em;
+            vertical-align: top;
+        }
+
+        .contact-form button {
+            background-color: #4CAF50; /* 緑色 */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .contact-form button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .contact-form button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9em;
+            margin-top: -15px; /* inputとの間隔を詰める */
+            margin-bottom: 10px;
+            display: block; /* エラーメッセージをブロック要素にする */
+        }
+            /* モバイル対応 */
+        @media (max-width: 768px) {
+            .contact-container {
+                margin-top: 100px;
+                padding: 1.5rem;
+            }
+
+            .contact-container h2 {
+                font-size: 1.8rem;
+            }
+
+            .contact-form input[type="text"],
+            .contact-form input[type="email"],
+            .contact-form textarea {
+                width: calc(100% - 20px);
+            }
+
+            .contact-form button {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+
 
 
 
