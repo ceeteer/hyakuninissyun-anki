@@ -1083,6 +1083,89 @@ right: 0;
             }
         }
 
+        /*---以下はprivacy.htmlのスタイルを適用---*/
+                /* --- メインコンテンツのカードスタイル（Aboutページの内容も含む） --- */
+        .content-card { /* 新しく定義したカードスタイル */
+            background: linear-gradient(145deg, #ffffff, #f0f0f0); /* グラデーション背景 */
+            padding: 2.5rem; /* パディングを増やす */
+            border-radius: 16px; /* 角を丸く */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* 強めの影 */
+            max-width: 800px; /* 幅を広げる */
+            width: 90%;
+            text-align: left; /* テキストを左寄せに */
+            margin-top: 120px; /* ヘッダーの高さと余白を考慮 */
+            margin-bottom: 2rem;
+            line-height: 1.8; /* 行間を広げる */
+            color: #333; /* テキスト色 */
+            border: 1px solid #ddd; /* 控えめなボーダー */
+        }
+
+        .content-card h2 {
+            color: #2c3e50; /* ヘッダーと同じ色 */
+            font-size: 2.2rem; /* 見出しを大きく */
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #3498db; /* アクセントカラーの太い下線 */
+            padding-bottom: 0.8rem;
+            text-align: center; /* タイトルを中央寄せ */
+        }
+
+        .content-card h3 {
+            color: #34495e; /* 少し明るいダークグレー */
+            font-size: 1.6rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            position: relative; /* 下線のために */
+            padding-left: 15px; /* アイコンや装飾のスペース */
+        }
+
+        .content-card h3::before { /* 見出しの装飾 */
+            content: '•';
+            color: #3498db;
+            font-size: 2rem;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .content-card p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-card ul {
+            list-style: none; /* デフォルトのリストスタイルをなくす */
+            padding-left: 0;
+            margin-bottom: 1rem;
+        }
+
+        .content-card ul li {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 25px; /* カスタム箇条書きアイコンのスペース */
+        }
+
+        .content-card ul li::before { /* カスタム箇条書きアイコン */
+            content: '✓'; /* チェックマーク */
+            color: #27ae60; /* 緑色 */
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .content-card ul ul { /* ネストされたリストのスタイル */
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 0.5rem;
+        }
+
+        .content-card ul ul li::before {
+            content: '-'; /* ハイフン */
+            color: #7f8c8d; /* グレー */
+        }
+
 
 
 
