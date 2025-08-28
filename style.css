@@ -79,7 +79,7 @@
              top: 78px; /* ヘッダーの高さに合わせる */
             bottom: 0px; /* フッターの高さ（例：53px）に合わせて調整 */
               width: 780px; /* ヒーロー画像の幅に合わせて調整 */
-   background-image: url(tatami.jpeg); 
+   background-image: url(images/tatami.jpeg); 
     background-repeat: repeat; /* 縦方向に繰り返す */
     z-index: -1; /* コンテンツより背面に配置 */
     pointer-events: none; /* クリックイベントなどを透過 */
