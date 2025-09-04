@@ -159,117 +159,89 @@
             link.addEventListener('click', closeNav);
         });
 
-        // --- お問い合わせフォームの入力検証（フロントエンド） ---
-        const contactForm = document.getElementById('contactForm');
-        const nameInput = document.getElementById('name');
-        const emailInput = document.getElementById('email');
-        const messageInput = document.getElementById('message');
-        const submitButton = document.getElementById('submitButton');
 
-        const nameError = document.getElementById('nameError');
-        const emailError = document.getElementById('emailError');
-        const messageError = document.getElementById('messageError');
+    // --- お問い合わせフォームの入力検証（フロントエンド） ---
+    const contactForm = document.getElementById('contactForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const messageInput = document.getElementById('message');
+    const submitButton = document.getElementById('submitButton');
 
-        // 全ての入力フィールドを監視し、入力が変更されるたびに検証を行う
-        [nameInput, emailInput, messageInput].forEach(input => {
-            input.addEventListener('input', validateForm);
-        });
+    const nameError = document.getElementById('nameError');
+    const emailError = document.getElementById('emailError');
+    const messageError = document.getElementById('messageError');
 
-        function validateForm() {
-            let isNameValid = validateName();
-            let isEmailValid = validateEmail();
-            let isMessageValid = validateMessage();
+    // 全ての入力フィールドを監視し、入力が変更されるたびに検証を行う
+    [nameInput, emailInput, messageInput].forEach(input => {
+        input.addEventListener('input', validateForm);
+    });
 
-            // 全ての必須項目が有効なら送信ボタンを有効化
-            if (isNameValid && isEmailValid && isMessageValid) {
-                submitButton.disabled = false;
-            } else {
-                submitButton.disabled = true;
-            }
+    function validateForm() {
+        validateName();
+        validateEmail();
+        validateMessage();
+        // 🚫 ボタンの有効/無効切り替えは削除
+    }
+
+    function validateName() {
+        if (nameInput.value.trim() === '') {
+            nameError.textContent = 'お名前は必須です。';
+            return false;
+        }
+        nameError.textContent = '';
+        return true;
+    }
+
+    function validateEmail() {
+        const email = emailInput.value.trim();
+        if (email === '') {
+            emailError.textContent = 'メールアドレスは必須です。';
+            return false;
+        }
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            emailError.textContent = '有効なメールアドレスを入力してください。';
+            return false;
+        }
+        emailError.textContent = '';
+        return true;
+    }
+
+    function validateMessage() {
+        if (messageInput.value.trim() === '') {
+            messageError.textContent = 'お問い合わせ内容は必須です。';
+            return false;
+        }
+        messageError.textContent = '';
+        return true;
+    }
+
+    // フォーム送信時の処理
+    contactForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // バリデーション結果をチェック（エラーがあっても送信は可能）
+        const isNameValid = validateName();
+        const isEmailValid = validateEmail();
+        const isMessageValid = validateMessage();
+
+        if (!isNameValid || !isEmailValid || !isMessageValid) {
+            alert('入力内容に誤りがありますが送信しました。');
+        } else {
+            alert('お問い合わせ内容を受け付けました。ありがとうございます！');
         }
 
-        function validateName() {
-            if (nameInput.value.trim() === '') {
-                nameError.textContent = 'お名前は必須です。';
-                return false;
-            }
-            nameError.textContent = '';
-            return true;
-        }
+        // 実際の送信処理を書く場所（現状はデモ用）
+        contactForm.reset(); // 入力内容をリセット
+        // 🚫 submitButton.disabled = true; ← 削除
+        nameError.textContent = '';
+        emailError.textContent = '';
+        messageError.textContent = '';
+    });
 
-        function validateEmail() {
-            const email = emailInput.value.trim();
-            if (email === '') {
-                emailError.textContent = 'メールアドレスは必須です。';
-                return false;
-            }
-            // 簡単なメールアドレス形式の正規表現チェック
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                emailError.textContent = '有効なメールアドレスを入力してください。';
-                return false;
-            }
-            emailError.textContent = '';
-            return true;
-        }
+    // ページロード時に初期バリデーション
+    document.addEventListener('DOMContentLoaded', validateForm);
 
-        function validateMessage() {
-            if (messageInput.value.trim() === '') {
-                messageError.textContent = 'お問い合わせ内容は必須です。';
-                return false;
-            }
-            messageError.textContent = '';
-            return true;
-        }
-
-        // フォーム送信時の処理（今回は実際の送信は行わず、メッセージ表示のみ）
-        contactForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // デフォルトのフォーム送信をキャンセル
-
-            // 最終チェック
-            if (!validateName() || !validateEmail() || !validateMessage()) {
-                alert('入力内容に誤りがあります。ご確認ください。');
-                return;
-            }
-
-            // ここに実際の送信処理を記述します。
-            // 例: Fetch APIを使ってサーバーにデータを送信
-            // fetch('/api/contact', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         name: nameInput.value,
-            //         email: emailInput.value,
-            //         subject: subjectInput.value, // subjectInputがHTMLに存在する場合
-            //         message: messageInput.value
-            //     })
-            // })
-            // .then(response => response.json())
-            // .then(data => {
-            //     alert('お問い合わせを送信しました。ありがとうございます！');
-            //     contactForm.reset(); // フォームをリセット
-            //     submitButton.disabled = true; // ボタンを無効化
-            // })
-            // .catch(error => {
-            //     console.error('送信エラー:', error);
-            //     alert('送信中にエラーが発生しました。お手数ですが、もう一度お試しください。');
-            // });
-
-            // **今回は、実際の送信は行わないため、成功メッセージを表示してフォームをリセットします。**
-            alert('お問い合わせ内容を受け付けました。ありがとうございます！\n（※このフォームはテスト用のため、実際には送信されません。）');
-            contactForm.reset(); // フォームをリセット
-            submitButton.disabled = true; // ボタンを無効化
-
-            // エラーメッセージもクリア
-            nameError.textContent = '';
-            emailError.textContent = '';
-            messageError.textContent = '';
-        });
-
-        // ページロード時に一度フォームの検証を実行し、送信ボタンの状態を初期設定
-        document.addEventListener('DOMContentLoaded', validateForm);
 
          // --- 新規追加: ログイン・新規登録ボタンのダミー関数 ---
         // ログインボタンがクリックされたときに実行される関数
