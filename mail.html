@@ -15,7 +15,7 @@
     <header>
         <button class="open-sidebar-btn" onclick="openNav()">&#9776;</button>
         <h1>
-            <img src="karuta.png" alt="" class="header-icon">
+            <img src="images/karuta.png" alt="" class="header-icon">
             百人一瞬暗記
         </h1>
          <!-- 新規追加: ログイン・新規登録ボタンのコンテナ -->
@@ -47,7 +47,8 @@
     <div class="contact-container">
         <h2>お問い合わせ</h2>
         <p>ご意見、ご感想、不具合報告など、お気軽にお問い合わせください。</p>
-        <form id="contactForm" class="contact-form" action="#" method="POST">
+        <form id="contactForm" class="contact-form" action="/contact" method="POST">
+            @csrf
             <label for="name" class="required">お名前</label>
             <input type="text" id="name" name="name" placeholder="例：山田 太郎" required aria-required="true">
             <span id="nameError" class="error-message"></span>
@@ -63,7 +64,7 @@
             <textarea id="message" name="message" placeholder="具体的な内容をご記入ください" rows="5" required aria-required="true"></textarea>
             <span id="messageError" class="error-message"></span>
 
-            <button type="submit" id="submitButton" disabled>送信</button>
+            <button type="submit" id="submitButton">送信</button>
         </form>
     </div>
 
