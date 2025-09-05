@@ -8,8 +8,8 @@ Route::get('/contact', function () {
     return view('contact');
 });
 
-// ユーザー用：フォーム送信 → DB保存
-Route::post('/contact', function (Request $request) {
+// 外部フォームからの問い合わせ受け取り（CSRFなし）
+Route::post('/contact/api', function (Request $request) {
     $validated = $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email',
@@ -19,8 +19,9 @@ Route::post('/contact', function (Request $request) {
 
     Inquiry::create($validated);
 
-    return back()->with('success', 'お問い合わせを受け付けました');
-})->name('contact.store');
+    return response()->json(['message' => '保存完了'], 200);
+});
+
 
 // 管理者用：一覧表示
 Route::get('/admin/inquiries', function () {
