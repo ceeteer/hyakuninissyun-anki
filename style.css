@@ -885,19 +885,27 @@ right: 0;
         #weakPoemsSection {
     display: block;
 }
+.weak-poem-item button {
+    background-color: #90EE90; /* 薄緑色 */
+    color: #333; /* 文字色（濃いグレー） */
+    border: none; /* 枠線を削除 */
+    border-radius: 10px; /* 角を丸くする */
+    padding: 8px 16px; /* 内側の余白 */
+    font-size: 14px; /* 文字サイズ */
+    cursor: pointer; /* カーソルをポインタに */
+    transition: background-color 0.3s ease; /* ホバー時のスムーズな変化 */
+}
+
+.weak-poem-item button:hover {
+    background-color: #78DA78; /* ホバー時に少し濃い薄緑 */
+}
+
+.weak-poem-item button:focus {
+    outline: 2px solid #4CAF50; /* フォーカス時のアウトライン */
+    outline-offset: 2px;
+}
 
 /*---以下はabout.htmlのみ適用する---*/
-/* メニューボタン */
-.open-sidebar-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            padding: 0 10px;
-            z-index: 1002; /* サイドバーより手前に表示 */
-        }
-
  /* --- メインコンテンツのカードスタイル（Aboutページの内容も含む） --- */
         .content-card {
             background: linear-gradient(145deg, #ffffff, #f0f0f0);
@@ -1166,10 +1174,11 @@ right: 0;
             color: #7f8c8d; /* グレー */
         }
 
-
-
-
-
-
-
+        /*---以下はregister.phpに適用されるスタイル---*/
+        .container{
+            font-family: 'Noto Sans JP', sans-serif;
+            background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+        }
        
